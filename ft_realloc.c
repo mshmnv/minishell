@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/11/25 01:56:13 by lbagg            ###   ########.fr       */
+/*   Created: 2020/11/25 01:55:17 by lbagg             #+#    #+#             */
+/*   Updated: 2020/11/25 01:55:18 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+char *ft_realloc(char *str, int len)
+{
+	char	*res;
 
-#include "libft/libft.h"
-#include "get_next_line/get_next_line.h"
-
-char *ft_realloc(char *str, int len);
-
-#include <stdio.h>
-
-# endif
+	res = NULL;
+	if ((res = (char*)malloc(sizeof(char) * (len + 1))))
+	{
+		ft_memcpy(res, str, ft_strlen(str));
+		res[ft_strlen(str)] = '\0';
+		free(str);
+	} 
+	return (res);
+}

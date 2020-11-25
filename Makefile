@@ -2,7 +2,7 @@
 
 NAME = shell
 
-SRC = main.c get_next_line/get_next_line.c
+SRC = main.c get_next_line/get_next_line.c ft_realloc.c
 
 SRCO = $(SRC:.c=.o)
 
