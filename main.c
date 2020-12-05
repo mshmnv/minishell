@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:23:45 by lbagg             #+#    #+#             */
-/*   Updated: 2020/11/27 21:10:18 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/05 15:54:52 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		main(int argc, char **argv, char **envp)
 {
-	char **env_data; // put there envp
+	char **env_data;
 	
 	env_data = read_envp(envp);
 	shell_loop(env_data);

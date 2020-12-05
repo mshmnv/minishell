@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/11/27 21:10:30 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/05 17:49:36 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,29 +53,30 @@ char 	**execute(char **tokens, char **env_data)
 	{
 		if (!(ft_strncmp(tokens[0], g_builtin[i].name, ft_strlen(g_builtin[i].name))))
 			return((g_builtin[i].func(tokens, env_data)));
-		// if access?? != -1 -> execute_ps()
-		// else find_cmd()
 		i++;
 	}
-
+	// if access?? != -1 -> execute_ps()
+	execute_ps(tokens, env_data);
+	// else find_cmd()
 	return (env_data);
 }
 
-// int 	execute_ps(char **tokens, char **env_data)
-// {
-// 	pid_t	pid;
+int 	execute_ps(char **tokens, char **env_data)
+{
+	pid_t	pid;
 	
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		if (execve(tokens[0], tokens, env_data) == -1)
-// 		{
-// 			error("Failed to execute!");
-// 		}
-// 	}
-// 	else if (pid < 0)
-// 		error("Failed to fork!");
-// 	else
-// 		wait(&pid);
-// 	return (1);
-// }
+	pid = fork();
+	// ft_putstr_fd(ft_itoa(pid), 1);
+	// ft_putstr_fd(tokens[0], 1);
+
+	if (pid == 0) //child
+	{
+		if (execve(tokens[0], tokens, env_data) == -1)
+			error("Failed to execute!");
+	}
+	else if (pid < 0)
+		error("Failed to fork!");
+	else
+		wait(&pid);
+	return (1);
+}

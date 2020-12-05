@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/11/27 21:01:14 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/05 17:36:25 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int				shell_loop(char **env_data);
 char			**read_commands(char *line);
 char			**launch(char **commands, char **env_data);
 char 			**execute(char **tokens, char **env_data);
+int 			execute_ps(char **tokens, char **env_data);
 void			error(char *message);
 
 
