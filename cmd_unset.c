@@ -6,14 +6,13 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:41:12 by lbagg             #+#    #+#             */
-/*   Updated: 2020/11/27 14:46:50 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/06 14:53:32 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**cmd_unset(char **tokens, char **env_data)
+void	cmd_unset(char **args, char **env_data)
 {
 	
-	return (env_data);
 }

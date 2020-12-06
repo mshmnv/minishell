@@ -6,13 +6,13 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:41:32 by lbagg             #+#    #+#             */
-/*   Updated: 2020/11/27 21:11:53 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/06 14:54:18 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**cmd_env(char **tokens, char **env_data)
+void	cmd_env(char **args, char **env_data)
 {
 	int i;
 
@@ -22,5 +22,4 @@ char	**cmd_env(char **tokens, char **env_data)
 		ft_putendl_fd(env_data[i], 1);
 		i++;
 	}
-	return (env_data);
 }

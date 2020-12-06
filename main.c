@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:23:45 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/05 15:54:52 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/06 15:06:35 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ int		shell_loop(char **env_data)
 		// split line on commands
 		commands = read_commands(line);	
 		// execute the commands
-		env_data = launch(commands, env_data);
+		launch(commands, env_data);
 		// check status
 		
 		//free memory
 		free(line);
-		free(commands);
+		free_arr(commands);
 		line = NULL;
 	}
 	return (status);

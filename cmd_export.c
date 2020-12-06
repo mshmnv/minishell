@@ -6,14 +6,13 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:40:48 by lbagg             #+#    #+#             */
-/*   Updated: 2020/11/27 14:46:40 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/06 14:53:46 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**cmd_export(char **tokens, char **env_data)
+void	cmd_export(char **args, char **env_data)
 {
 
-	return (env_data);
 }
