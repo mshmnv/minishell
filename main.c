@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:23:45 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/06 15:06:35 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/07 22:46:50 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**read_envp(char **envp)
 	return(env_data);
 }
 
-int		shell_loop(char **env_data)
+void	shell_loop(char **env_data)
 {
 	int		status;
 	char	*line;
@@ -57,47 +57,12 @@ int		shell_loop(char **env_data)
 		
 		// split line on commands
 		commands = read_commands(line);	
-		// execute the commands
+		// execute commands
 		launch(commands, env_data);
 		// check status
-		
-		//free memory
+		// ... status = launch(commands, env_data);
 		free(line);
 		free_arr(commands);
 		line = NULL;
 	}
-	return (status);
-}
-
-char	**read_commands(char *line)
-{
-	char	**commands;
-	int		i;
-	int		j;
-
-	i  = 0;	
-	j  = 0;
-	// now only 1 command, later count commands
-	commands = (char**)malloc(sizeof(char*) * 2);
-	commands[i] = NULL;
-	while (*line && *line != '|' && *line != ';')
-	{
-		if (!commands[i])
-		{
-			commands[i] = (char*)malloc(sizeof(char) * 2);
-			commands[i][j] = *line;
-			commands[i][j + 1] = '\0';
-		}
-		else
-		{
-			j = ft_strlen(commands[i]);
-			commands[i] = ft_realloc(commands[i], j + 2);
-			commands[i][j] = *line;
-			commands[i][j + 1] = '\0';
-		}
-		line++;
-	}
-	i++;
-	commands[i] = NULL;
-	return(commands);
 }

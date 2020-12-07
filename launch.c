@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/06 19:25:28 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/07 22:48:52 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,19 @@ void	launch(char **commands, char **env_data)
 	i = 0;
 	while (commands[i])
 	{
+		// ft_putendl_fd(args[i], 1);
+		
 		args = ft_strtok(commands[i], " \t\n\t\a");
+		// ft_putendl_fd(args[0], 1);
+
 		execute(args, env_data);
 		free_arr(args);
 		i++;
 	}
 }
 
-void	find_cmd(char **args, char **env_data)
+void	find_cmd(char **args, char **env_data) // leaks !!
 {
-	char	*start;
 	char	**path;
 	int		i;
 	char	*tmp;
@@ -51,11 +54,11 @@ void	find_cmd(char **args, char **env_data)
 	struct stat stats;
 
 	i = 0;
-	while (!(start = ft_strnstr(env_data[i], "PATH=", 5)))
+	while (!(ft_strnstr(env_data[i], "PATH=", 5)))
 		i++;
-	if (!start)
+	if (!env_data[i])
 		return ;
-	path = ft_strtok(start + 5, ":");
+	path = ft_strtok(env_data[i] + 5, ":");
 	i = 0;
 	while (path[i])
 	{
@@ -68,6 +71,7 @@ void	find_cmd(char **args, char **env_data)
 			tmp = args[0];
 			args[0] = new;
 			free(tmp);
+			free_arr(path);
 			execute_process(args, env_data);
 			return ;
 		}
@@ -75,6 +79,8 @@ void	find_cmd(char **args, char **env_data)
 		free(new);
 	}
 	free_arr(path);
+	ft_putstr_fd("zsh: command not found: ", 1);
+	ft_putendl_fd(args[0], 1);
 }
 
 void	execute(char **args, char **env_data)
