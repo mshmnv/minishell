@@ -15,3 +15,10 @@
 - [ ] Environmental variables: **$**
 - [ ] **$?**
 - [ ] Signals: **ctrl-C, ctrl-D, ctrl-\**
+
+
+###CASES
+
+```
+e'c'h'o'
+```
