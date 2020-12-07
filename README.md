@@ -6,8 +6,9 @@
 - [X] **pwd** without any options
 - [ ] **export** without any options
 - [ ] **unset** without any options
-- [X] **env** without any options and any arguments ◦ exit without any options
-- [ ] Command separates with: **;**
+- [X] **env** without any options and any arguments
+- [ ] **exit** without any options
+- [X] Command separates with: **;**
 - [ ] **'** and **"** (except for multiline commands)
 - [ ] Redirections: **<> ">>"**
 - [ ] Pipes: **|**
