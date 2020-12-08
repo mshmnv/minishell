@@ -17,7 +17,7 @@
 - [ ] Signals: **ctrl-C, ctrl-D, ctrl-\**
 
 
-###CASES
+### CASES
 
 ```
 e'c'h'o' hello -> hello
