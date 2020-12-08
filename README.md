@@ -20,6 +20,6 @@
 ###CASES
 
 ```
-e'c'h'o'
+e'c'h'o' hello -> hello
 ./shell запускает сам себя
 ```
