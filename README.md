@@ -14,7 +14,7 @@
 - [ ] Pipes: **|**
 - [ ] Environmental variables: **$**
 - [ ] **$?**
-- [ ] Signals: **ctrl-C, ctrl-D, ctrl-\***
+- [ ] Signals: **ctrl-C, ctrl-D, ctrl-\\**
 
 
 ### CASES
