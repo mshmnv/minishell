@@ -1,7 +1,7 @@
 # minishell
 
 - [X] search and launch the right executable
-- [ ] **echo** with option ’-n’
+- [X] **echo** with option ’-n’
 - [ ] **cd** with only a relative or absolute path
 - [X] **pwd** without any options
 - [ ] **export** without any options
