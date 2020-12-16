@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 22:44:02 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/07 22:44:22 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/15 14:05:48 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,19 @@ char	**read_commands(char *line)
 	int		i;
 	int		j;
 
-	i  = 0;	
-	j  = 0;
+	i = 0;	
+	j = 0;
 	commands = (char**)malloc(sizeof(char*) * 2);
 	commands[i] = (char*)malloc(sizeof(char) * 2);
+	commands[i][0] = '\0';
+	commands[i + 1] = NULL;
 	while (*line)
 	{
 		if (*line == ';')
 		{
 			i++;
 			j = 0;
-			commands = ft_double_realloc(commands, i + 1);
+			commands = ft_double_realloc(commands, i + 1, "");
 		}
 		else
 		{

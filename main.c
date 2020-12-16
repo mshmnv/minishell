@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:23:45 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/07 22:46:50 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/15 14:13:39 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**read_envp(char **envp)
 	i = 0;
 	while (envp[i])
 		i++;
-	env_data = (char**)malloc(sizeof(char*) * i);
+	env_data = (char**)malloc(sizeof(char*) * (i + 1));
 	i = 0;
 	while(envp[i])
 	{
@@ -54,11 +54,10 @@ void	shell_loop(char **env_data)
 	{
 		ft_putstr_fd("shell $> ", 1);
 		get_next_line(0, &line);
-		
 		// split line on commands
 		commands = read_commands(line);	
 		// execute commands
-		launch(commands, env_data);
+		env_data = launch(commands, env_data);
 		// check status
 		// ... status = launch(commands, env_data);
 		free(line);

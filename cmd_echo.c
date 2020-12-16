@@ -6,13 +6,13 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:57:52 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/10 00:37:45 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/16 11:19:41 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void check_env(char *arg, char **env_data)
+static void	check_env(char *arg, char **env_data)
 {
 	int j;
 
@@ -29,23 +29,21 @@ static void check_env(char *arg, char **env_data)
 	}
 }
 
-void	cmd_echo(char **args, char **env_data)
+char		**cmd_echo(char **args, char **env_data)
 {
 	int i;
 	int n_flag;
 
 	n_flag = 0;
-	if (!args[1])
-		ft_putchar_fd('\n', 1);
-	else if (args[1])
+	if (args[1])
 	{
-		i = 1;
+		i = 0;
 		if (!ft_strncmp(args[1], "-n", 2))
-		{	
+		{
 			n_flag = 1;
-			i++;	
+			i++;
 		}
-		while(args[i])
+		while (args[++i])
 		{
 			if (args[i][0] == '$')
 				check_env(args[i], env_data);
@@ -53,9 +51,9 @@ void	cmd_echo(char **args, char **env_data)
 				ft_putstr_fd(args[i], 1);
 			if (args[i + 1])
 				ft_putchar_fd(' ', 1);
-			else if (!args[i + 1] && !n_flag)
-				ft_putchar_fd('\n', 1);
-			i++;
 		}
 	}
+	if (!n_flag)
+		ft_putchar_fd('\n', 1);
+	return (env_data);
 }

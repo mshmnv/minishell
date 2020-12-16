@@ -6,13 +6,13 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:40:13 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/10 19:18:55 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/16 11:02:29 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	change_env(char **env_data, char *oldir, char *dir) // change PWD OLDPWD
+static void	change_env(char **env_data, char *oldir, char *dir)
 {
 	int		j;
 	char	*tmp;
@@ -50,7 +50,7 @@ static char	*go_home(char **env_data)
 	return (NULL);
 }
 
-void		cmd_cd(char **args, char **env_data)
+char		**cmd_cd(char **args, char **env_data)
 {
 	int			i;
 	struct stat	stats;
@@ -63,8 +63,9 @@ void		cmd_cd(char **args, char **env_data)
 	else
 		dir = args[1];
 	if (stat(dir, &stats) == 0)
-	{	
+	{
 		chdir(dir);
+		dir = getcwd(NULL, 0);
 		change_env(env_data, oldir, dir);
 	}
 	else
@@ -73,4 +74,5 @@ void		cmd_cd(char **args, char **env_data)
 		ft_putendl_fd(dir, 1);
 	}
 	free(oldir);
+	return (env_data);
 }

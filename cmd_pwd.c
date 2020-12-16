@@ -6,13 +6,13 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:41:59 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/06 15:23:37 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/16 11:31:15 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cmd_pwd(char **args, char **env_data)
+char	**cmd_pwd(char **args, char **env_data)
 {
 	char	*cwd;
 	int		i;
@@ -27,4 +27,5 @@ void	cmd_pwd(char **args, char **env_data)
 		ft_putendl_fd((cwd = getcwd(NULL, 0)), 1);
 		free(cwd);
 	}
+	return (env_data);
 }

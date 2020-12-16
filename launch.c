@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/07 22:48:52 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/15 13:56:37 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_builtin		g_builtin[] =
 	{"exit", &cmd_exit},
 };
 
-void	launch(char **commands, char **env_data)
+char	**launch(char **commands, char **env_data)
 {
 	int		i;
 	char	**args;
@@ -39,10 +39,11 @@ void	launch(char **commands, char **env_data)
 		args = ft_strtok(commands[i], " \t\n\t\a");
 		// ft_putendl_fd(args[0], 1);
 
-		execute(args, env_data);
+		env_data = execute(args, env_data);
 		free_arr(args);
 		i++;
 	}
+	return (env_data);
 }
 
 void	find_cmd(char **args, char **env_data) // leaks !!
@@ -54,7 +55,7 @@ void	find_cmd(char **args, char **env_data) // leaks !!
 	struct stat stats;
 
 	i = 0;
-	while (!(ft_strnstr(env_data[i], "PATH=", 5)))
+	while (env_data[i] && !(ft_strnstr(env_data[i], "PATH=", 5)))
 		i++;
 	if (!env_data[i])
 		return ;
@@ -79,29 +80,27 @@ void	find_cmd(char **args, char **env_data) // leaks !!
 		free(new);
 	}
 	free_arr(path);
-	ft_putstr_fd("zsh: command not found: ", 1);
+	ft_putstr_fd("minishell: command not found: ", 1);
 	ft_putendl_fd(args[0], 1);
 }
 
-void	execute(char **args, char **env_data)
+char	**execute(char **args, char **env_data)
 {
-	int		i;
-	struct stat stats;
+	int			i;
+	struct stat	stats;
 
 	i = 0;
 	while (i < 7)
 	{
 		if (!(ft_strncmp(args[0], g_builtin[i].name, ft_strlen(g_builtin[i].name))))
-		{
-			g_builtin[i].func(args, env_data);
-			return ;
-		}
+			return(g_builtin[i].func(args, env_data));		
 		i++;
 	}
 	if (stat(args[0], &stats) == 0)
 		execute_process(args, env_data);
 	else
 		find_cmd(args, env_data);
+	return (env_data);
 }
 
 void 	execute_process(char **args, char **env_data)
