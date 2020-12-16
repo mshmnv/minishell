@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/15 13:56:37 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/16 15:30:43 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,7 @@ char	**launch(char **commands, char **env_data)
 	i = 0;
 	while (commands[i])
 	{
-		// ft_putendl_fd(args[i], 1);
-		
 		args = ft_strtok(commands[i], " \t\n\t\a");
-		// ft_putendl_fd(args[0], 1);
-
 		env_data = execute(args, env_data);
 		free_arr(args);
 		i++;

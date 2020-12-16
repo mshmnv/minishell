@@ -6,10 +6,9 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/16 11:32:20 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/16 15:29:35 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -19,6 +18,7 @@
 # include <sys/types.h> 
 # include <unistd.h>
 # include <sys/stat.h>
+# include <signal.h>
 
 # include <stdio.h>
 
@@ -51,6 +51,8 @@ void 			execute_process(char **args, char **env_data);
 void			find_cmd(char **args, char **env_data);
 void			error(char *message);
 
+// signals
+void			ignore_signals();
 
 
 # endif
