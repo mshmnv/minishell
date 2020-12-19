@@ -20,15 +20,14 @@
 ### CASES
 
 ```
-e'c'h'o' hello -> (hello)
 ./shell запускает сам себя
 ```
 
 *parser cases*
 ```
-ls ; ls ;  			- > (ls ; ls)
+ls ; ls ;  			  - > (ls ; ls)
 ls ; ls ; ; ; 		- > (bash: syntax error near unexpected token `;')
-; ls 				- > (bash: syntax error near unexpected token `;')
+; ls 				      - > (bash: syntax error near unexpected token `;')
 
 export USER=name ; echo $USER   - > (name)
 echo " sksk   ls"
