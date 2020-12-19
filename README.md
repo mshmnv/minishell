@@ -9,10 +9,10 @@
 - [X] **env** without any options and any arguments
 - [X] **exit** without any options
 - [X] Command separates with: **;**
-- [ ] **'** and **"** (except for multiline commands)
+- [X] **'** and **"** (except for multiline commands)
 - [ ] Redirections: **<> ">>"**
 - [ ] Pipes: **|**
-- [ ] Environmental variables: **$**
+- [X] Environmental variables: **$**
 - [ ] **$?**
 - [ ] Signals: **ctrl-C, ctrl-D, ctrl-\\**
 
@@ -31,9 +31,6 @@ ls ; ls ; ; ; 		- > (bash: syntax error near unexpected token `;')
 ; ls 				- > (bash: syntax error near unexpected token `;')
 
 export USER=name ; echo $USER   - > (name)
-~~echo -n -n -n hello				- > (hello%)~~
-~~echo $sssss					- > (\n)~~
-
 echo " sksk   ls"
 
 ```
