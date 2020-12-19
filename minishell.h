@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/16 15:29:35 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/19 14:31:33 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,29 @@
 
 # include <stdio.h>
 
+
+typedef struct	s_builtin
+{
+	char		*name;
+	char		**(*func)(char **args, char **env_data);
+}				t_builtin;
+
+typedef struct				s_command
+{
+		char				*command;
+		// char				**env_data;
+		int					pipe_flag;
+		int					fd[2];
+		int					redir_flag;
+		char				*redir_filename;
+		// int					error_flag;
+		// int					intput;
+		// int					output;
+		struct s_command	*next;
+		
+}							t_command;
+
+
 char			**cmd_echo(char **args, char **env_data);
 char			**cmd_cd(char **args, char **env_data);
 char			**cmd_pwd(char **args, char **env_data);
@@ -30,11 +53,6 @@ char			**cmd_unset(char **args, char **env_data);
 char			**cmd_env(char **args, char **env_data);
 char			**cmd_exit(char **args, char **env_data);
 
-typedef struct	s_builtin
-{
-	char		*name;
-	char		**(*func)(char **args, char **env_data);
-}				t_builtin;
 
 // will be moved to libft
 char			*ft_realloc(char *str, int len);
@@ -44,15 +62,26 @@ void			free_arr(char **arr);
 
 char			**read_envp(char **envp);
 void			shell_loop(char **env_data);
-char			**read_commands(char *line);
-char			**launch(char **commands, char **env_data);
+char			**launch(t_command *cmds, char **env_data);
 char			**execute(char **args, char **env_data);
 void 			execute_process(char **args, char **env_data);
 void			find_cmd(char **args, char **env_data);
 void			error(char *message);
 
-// signals
+// parsing.c
+void			parsing(char *line, t_command *cmds, char **env_data);
+int				parse_env_value(char **env_data, char *line, char **command);
+int				parse_quotes(char **env_data, char *line, char **command);
+char			is_any_symb(char ch, char *to_find);
+
+// signals.c
 void			ignore_signals();
+void			sigint(int sig);
+void			sigquit(int sig);
+
+// cmd_list.c
+t_command		*new_cmd_list();
+void			free_cmd_list(t_command **cmds);
 
 
 # endif

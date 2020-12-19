@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:23:45 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/16 15:25:50 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/19 13:45:20 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,30 @@ char	**read_envp(char **envp)
 	return(env_data);
 }
 
+
+
 void	shell_loop(char **env_data)
 {
 	char	*line;
 	char	**commands;
 	int		ret;
+	t_command	*cmds;
 	
 	line = NULL;
-	ignore_signals();
+	// ignore_signals();
 	while (21)
 	{
-		ft_putstr_fd("minishell $> ", 1);
+		cmds = new_cmd_list();
+		ft_putstr_fd("shell > ", 1);
 		get_next_line(0, &line);
-		// split line on commands
-		commands = read_commands(line);	
-		// execute commands
-		env_data = launch(commands, env_data);
+		parsing(line, cmds, env_data);
+
+		env_data = launch(cmds, env_data);
+		free_cmd_list(&cmds);
+		// free(cmds->command);
+		// free(cmds);
+	
 		free(line);
-		free_arr(commands);
 		line = NULL;
 	}
 }

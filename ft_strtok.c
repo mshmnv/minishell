@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 12:57:58 by lbagg             #+#    #+#             */
-/*   Updated: 2020/11/26 14:23:09 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/18 01:43:45 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ char		**ft_strtok(char *s, char *delim)
 	int		i;
 	int		j;
 
+	if (!s || !*s)
+		return (NULL);
 	parts = count_parts(s, delim);
 	tok = (char**)malloc(sizeof(char*) * (parts + 1));
 	i = 0;

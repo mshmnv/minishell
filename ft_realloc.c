@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 01:55:17 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/15 14:03:04 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/18 13:47:57 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,22 @@
 char	*ft_realloc(char *str, int len)
 {
 	char	*res;
+	int		i;
 
+	i = 0;
 	res = NULL;
 	if ((res = (char*)malloc(sizeof(char) * (len + 1))))
 	{
-		ft_memcpy(res, str, ft_strlen(str));
-		res[ft_strlen(str)] = '\0';
+		while (str && str[i])
+		{
+			res[i] = str[i];
+			i++;
+		}
+		while (i <= len)
+		{
+			res[i] = '\0';
+			i++;
+		}
 		free(str);
 	} 
 	return (res);

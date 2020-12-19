@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:57:52 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/16 11:19:41 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/19 14:48:59 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,18 @@ char		**cmd_echo(char **args, char **env_data)
 	n_flag = 0;
 	if (args[1])
 	{
-		i = 0;
-		if (!ft_strncmp(args[1], "-n", 2))
+		i = 1;
+		while (!ft_strncmp(args[i], "-n", 2))
 		{
 			n_flag = 1;
 			i++;
 		}
-		while (args[++i])
+		while (args[i])
 		{
-			if (args[i][0] == '$')
-				check_env(args[i], env_data);
-			else
-				ft_putstr_fd(args[i], 1);
+			ft_putstr_fd(args[i], 1);
 			if (args[i + 1])
 				ft_putchar_fd(' ', 1);
+			i++;
 		}
 	}
 	if (!n_flag)

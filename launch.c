@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/16 15:30:43 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/19 14:36:21 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,23 @@ t_builtin		g_builtin[] =
 	{"exit", &cmd_exit},
 };
 
-char	**launch(char **commands, char **env_data)
+char	**launch(t_command *cmds, char **env_data)
 {
+	t_command	*tmp;
 	int		i;
-	char	**args;
-	int		status;
-	
-	status = 1;
+	char	**args;	
 
 	i = 0;
-	while (commands[i])
+	tmp = cmds;
+	while (tmp)
 	{
-		args = ft_strtok(commands[i], " \t\n\t\a");
-		env_data = execute(args, env_data);
-		free_arr(args);
-		i++;
+		// args = ft_strtok(tmp->command, " \t\n\t\a");
+		if ((args = ft_strtok(tmp->command, " \n\t")))
+		{
+			env_data = execute(args, env_data);
+			free_arr(args);
+		}
+		tmp = tmp->next;
 	}
 	return (env_data);
 }
@@ -89,7 +91,7 @@ char	**execute(char **args, char **env_data)
 	while (i < 7)
 	{
 		if (!(ft_strncmp(args[0], g_builtin[i].name, ft_strlen(g_builtin[i].name))))
-			return(g_builtin[i].func(args, env_data));		
+			return (g_builtin[i].func(args, env_data));		
 		i++;
 	}
 	if (stat(args[0], &stats) == 0)

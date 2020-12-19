@@ -20,6 +20,28 @@
 ### CASES
 
 ```
-e'c'h'o' hello -> hello
+e'c'h'o' hello -> (hello)
 ./shell запускает сам себя
 ```
+
+*parser cases*
+```
+ls ; ls ;  			- > (ls ; ls)
+ls ; ls ; ; ; 		- > (bash: syntax error near unexpected token `;')
+; ls 				- > (bash: syntax error near unexpected token `;')
+
+export USER=name ; echo $USER   - > (name)
+~~echo -n -n -n hello				- > (hello%)~~
+~~echo $sssss					- > (\n)~~
+
+echo " sksk   ls"
+
+```
+
+???
+```
+not close quotes ( echo "hhhh  ) - mb no (subj: ' and " except for multiline commands)
+echo "$(echo "nnn")"
+```
+
+
