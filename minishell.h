@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/21 14:17:08 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/21 14:57:23 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,14 @@ typedef struct				s_command
 
 typedef struct				s_all
 {
-	// char					**env_data;
+	char					**env_data;
 	int						fd[2];
 	t_command				*cmds;
 }							t_all;
 
+/*
+ * builtins
+ */
 char			**cmd_echo(char **args, char **env_data);
 char			**cmd_cd(char **args, char **env_data);
 char			**cmd_pwd(char **args, char **env_data);
@@ -56,42 +59,57 @@ char			**cmd_export(char **args, char **env_data);
 char			**cmd_unset(char **args, char **env_data);
 char			**cmd_env(char **args, char **env_data);
 char			**cmd_exit(char **args, char **env_data);
-
-
-// will be moved to libft
+/*
+ * will be moved to libft
+ */
 char			*ft_realloc(char *str, int len);
 char			**ft_double_realloc(char **str, int len, char *line);
 char			**ft_strtok(char *s, char *delim);
 void			free_arr(char **arr);
-
+/*
+ * main.c
+ */
 char			**read_envp(char **envp);
 void			shell_loop(char **env_data);
-char			**launch(t_all *all, char **env_data);
+/*
+ * launch.c
+ */
+char			**launch(t_all *all);
 char			**execute(char **args, char **env_data);
 void 			execute_process(char **args, char **env_data);
 void			find_cmd(char **args, char **env_data);
+/*
+ * error.c
+ */
 void			error(char *message);
-
-// parsing.c
+/*
+ * parsing.c
+ */
 void			parsing(char *line, t_command *cmds, char **env_data);
 int				parse_env_value(char **env_data, char *line, char **command);
 int				parse_quotes(char **env_data, char *line, char **command);
+int				parse_redirects(char redir_symb, char *line, t_command *cmds);
 char			is_any_symb(char ch, char *to_find);
-
-// signals.c
+/*
+ * signals.c
+ */
 void			ignore_signals();
 void			sigint(int sig);
 void			sigquit(int sig);
-
-// cmd_list.c
+/*
+ * cmd_list.c
+ */
 t_command		*new_cmd_list();
 void			free_cmd_list(t_command **cmds);
 
-// pipes.c
-char			**execute_pipe(char **args, t_all *all, char **env_data);
+/*
+ * pipes.c
+ */
+void			execute_pipe(char **args, t_all *all, int pipe_before);
 
-// redirects.c
+/*
+ * redirects.c
+ */
 void			execute_redir(char **args, t_command *cmd, char **env_data);
-
 
 # endif

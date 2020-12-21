@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/21 14:17:17 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/21 14:57:39 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,12 @@ t_builtin		g_builtin[] =
 	{"exit", &cmd_exit},
 };
 
-char	**launch(t_all *all, char **env_data)
+char	**launch(t_all *all)
 {
 	t_command	*tmp;
-	int		i;
-	char	**args;	
+	int			i;
+	char		**args;
+	int			flag;
 
 	i = 0;
 	tmp = all->cmds;
@@ -36,24 +37,29 @@ char	**launch(t_all *all, char **env_data)
 		if ((args = ft_strtok(tmp->command, " \n\t")))
 		{
 			if (tmp->pipe_flag)
-				env_data = execute_pipe(args, all, env_data);
+			{
+				flag = 1;
+				execute_pipe(args, all, flag);
+			}
+			else
+				flag = 0;
 			if (tmp->redir_flag)
-				execute_redir(args, tmp, env_data);
-			env_data = execute(args, env_data);
+				execute_redir(args, tmp, all->env_data);
+			all->env_data = execute(args, all->env_data);
 			free_arr(args);
 		}
 		tmp = tmp->next;
 	}
-	return (env_data);
+	return (all->env_data);
 }
 
 void	find_cmd(char **args, char **env_data) // leaks !!
 {
-	char	**path;
-	int		i;
-	char	*tmp;
-	char	*new;
-	struct stat stats;
+	char		**path;
+	int			i;
+	char		*tmp;
+	char		*new;
+	struct stat	stats;
 
 	i = 0;
 	while (env_data[i] && !(ft_strnstr(env_data[i], "PATH=", 5)))
