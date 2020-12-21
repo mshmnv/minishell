@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/21 10:35:54 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/21 14:17:17 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	**launch(t_all *all, char **env_data)
 		{
 			if (tmp->pipe_flag)
 				env_data = execute_pipe(args, all, env_data);
+			if (tmp->redir_flag)
+				execute_redir(args, tmp, env_data);
 			env_data = execute(args, env_data);
 			free_arr(args);
 		}

@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/21 10:36:06 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/21 14:17:08 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ typedef struct				s_command
 		char				*command;
 		int					pipe_flag;
 		int					redir_flag;
-		char				*redir_filename;
+		char				*in_fname;
+		char				*out_fname;
+		int					append;
 		// int					error_flag;
-		// int					intput;
-		// int					output;
 		struct s_command	*next;
 		
 }							t_command;
@@ -90,6 +90,8 @@ void			free_cmd_list(t_command **cmds);
 // pipes.c
 char			**execute_pipe(char **args, t_all *all, char **env_data);
 
+// redirects.c
+void			execute_redir(char **args, t_command *cmd, char **env_data);
 
 
 # endif

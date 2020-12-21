@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 22:07:10 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/20 17:35:11 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/21 14:19:27 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,36 @@ char	is_any_symb(char ch, char *to_find)
 	return ('\0');
 }
 
+int		parse_redirects(char redir_symb, char *line, t_command *cmds)
+{
+	int		i;
+	int		j;
+	char	*fname;
+	int		start;
+
+	i = 0;
+	j = 0;
+	if (line[i] == '>')
+	{
+		i++;
+		cmds->append = 1;
+	}
+	while (line[i] == ' ')
+		i++;
+	start = i;
+	while (line[i] && line[i] != ' ')
+	{
+		i++;
+		j++;
+	}
+	fname = (char*)malloc(sizeof(char) * (j + 1));
+	ft_strlcpy(fname, line + start, j + 1);
+	if (redir_symb == '>')
+		cmds->out_fname = fname;
+	else
+		cmds->in_fname = fname;
+	return (i);
+}
 
 int		parse_quotes(char **env_data, char *line, char **command)
 {
@@ -48,7 +78,7 @@ int		parse_quotes(char **env_data, char *line, char **command)
 			*command = ft_realloc(*command, j + 1);
 			(*command)[j] = line[i];
 		}
-		i++;	
+		i++;
 	}
 	if (line[i] == quote)
 		return (i);
@@ -93,10 +123,17 @@ void	parsing(char *line, t_command *cmds, char **env_data)
 	command = NULL;
 	while (*line)
 	{
-		if (*line == '|' || *line == ';')
+		if (*line == '|' || *line == ';' || *line == '>' || *line == '<')
 		{
 			if (*line == '|')
 				tmp->pipe_flag = 1;
+			else if (*line == '>' || *line == '<')
+			{
+				tmp->redir_flag = 1;
+				line += parse_redirects(*line, line + 1, tmp);
+				ft_putendl_fd(tmp->in_fname, 1);
+				ft_putendl_fd(tmp->out_fname, 1);
+			}
 			tmp->command = command;
 			command = NULL;
 			tmp->next = new_cmd_list();

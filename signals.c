@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 14:56:31 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/19 14:19:35 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/21 12:35:32 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 void	ignore_signals()
 {
 	signal(SIGINT, sigint);
-	signal(SIGQUIT, sigquit);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	sigint(int sig)
