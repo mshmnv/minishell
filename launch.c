@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/19 14:36:21 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/21 10:35:54 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,20 @@ t_builtin		g_builtin[] =
 	{"exit", &cmd_exit},
 };
 
-char	**launch(t_command *cmds, char **env_data)
+char	**launch(t_all *all, char **env_data)
 {
 	t_command	*tmp;
 	int		i;
 	char	**args;	
 
 	i = 0;
-	tmp = cmds;
+	tmp = all->cmds;
 	while (tmp)
 	{
-		// args = ft_strtok(tmp->command, " \t\n\t\a");
 		if ((args = ft_strtok(tmp->command, " \n\t")))
 		{
+			if (tmp->pipe_flag)
+				env_data = execute_pipe(args, all, env_data);
 			env_data = execute(args, env_data);
 			free_arr(args);
 		}

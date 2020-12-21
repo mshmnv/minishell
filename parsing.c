@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 22:07:10 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/19 14:30:52 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/20 17:35:11 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,10 @@ void	parsing(char *line, t_command *cmds, char **env_data)
 	command = NULL;
 	while (*line)
 	{
-		if (*line == '|')
+		if (*line == '|' || *line == ';')
 		{
-			tmp->pipe_flag = 1;
-		}
-		if (*line == ';')
-		{
+			if (*line == '|')
+				tmp->pipe_flag = 1;
 			tmp->command = command;
 			command = NULL;
 			tmp->next = new_cmd_list();

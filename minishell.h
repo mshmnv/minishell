@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/19 14:31:33 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/21 10:36:06 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ typedef struct	s_builtin
 typedef struct				s_command
 {
 		char				*command;
-		// char				**env_data;
 		int					pipe_flag;
-		int					fd[2];
 		int					redir_flag;
 		char				*redir_filename;
 		// int					error_flag;
@@ -44,6 +42,12 @@ typedef struct				s_command
 		
 }							t_command;
 
+typedef struct				s_all
+{
+	// char					**env_data;
+	int						fd[2];
+	t_command				*cmds;
+}							t_all;
 
 char			**cmd_echo(char **args, char **env_data);
 char			**cmd_cd(char **args, char **env_data);
@@ -62,7 +66,7 @@ void			free_arr(char **arr);
 
 char			**read_envp(char **envp);
 void			shell_loop(char **env_data);
-char			**launch(t_command *cmds, char **env_data);
+char			**launch(t_all *all, char **env_data);
 char			**execute(char **args, char **env_data);
 void 			execute_process(char **args, char **env_data);
 void			find_cmd(char **args, char **env_data);
@@ -82,6 +86,10 @@ void			sigquit(int sig);
 // cmd_list.c
 t_command		*new_cmd_list();
 void			free_cmd_list(t_command **cmds);
+
+// pipes.c
+char			**execute_pipe(char **args, t_all *all, char **env_data);
+
 
 
 # endif
