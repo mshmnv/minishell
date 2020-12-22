@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/21 14:57:39 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/22 13:17:57 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**launch(t_all *all)
 				flag = 0;
 			if (tmp->redir_flag)
 				execute_redir(args, tmp, all->env_data);
-			all->env_data = execute(args, all->env_data);
+			all->env_data = execute(args, all->env_data, all);
 			free_arr(args);
 		}
 		tmp = tmp->next;
@@ -53,7 +53,7 @@ char	**launch(t_all *all)
 	return (all->env_data);
 }
 
-void	find_cmd(char **args, char **env_data) // leaks !!
+void	find_cmd(char **args, char **env_data, t_all *all)
 {
 	char		**path;
 	int			i;
@@ -80,7 +80,7 @@ void	find_cmd(char **args, char **env_data) // leaks !!
 			args[0] = new;
 			free(tmp);
 			free_arr(path);
-			execute_process(args, env_data);
+			execute_process(args, env_data, all);
 			return ;
 		}
 		i++;
@@ -91,7 +91,7 @@ void	find_cmd(char **args, char **env_data) // leaks !!
 	ft_putendl_fd(args[0], 1);
 }
 
-char	**execute(char **args, char **env_data)
+char	**execute(char **args, char **env_data, t_all *all)
 {
 	int			i;
 	struct stat	stats;
@@ -104,19 +104,23 @@ char	**execute(char **args, char **env_data)
 		i++;
 	}
 	if (stat(args[0], &stats) == 0)
-		execute_process(args, env_data);
+		execute_process(args, env_data, all);
 	else
-		find_cmd(args, env_data);
+		find_cmd(args, env_data, all);
 	return (env_data);
 }
 
-void 	execute_process(char **args, char **env_data)
+void 	execute_process(char **args, char **env_data, t_all *all)
 {
 	pid_t	pid;
 	
+	pipe(all->fd);
 	pid = fork();
-	if (pid == 0) // child has 0 returned
+	if (pid == 0) 
 	{
+		dup2(all->fd[1], STDIN_FILENO);
+		close(all->fd[0]);
+		close(all->fd[1]);
 		if (execve(args[0], args, env_data) == -1)
 			error("Failed to execute!");
 	}
@@ -124,4 +128,5 @@ void 	execute_process(char **args, char **env_data)
 		error("Failed to fork!");
 	else
 		wait(&pid);
+
 }

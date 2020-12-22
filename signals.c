@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 14:56:31 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/21 12:35:32 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/22 11:46:46 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,18 @@
 void	ignore_signals()
 {
 	signal(SIGINT, sigint);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, sigquit);
 }
 
 void	sigint(int sig)
 {
-	ft_putchar_fd('\n', 1);
-	ft_putstr_fd("shell > ", 1);
+	write(0, "\b\b  \b\b", 6);
+	write(0, "\n", 1);
+	// ft_putchar_fd('\n', 1);
+	ft_putstr_fd(PROMPT, 1);
 }
 
 void	sigquit(int sig)
 {
-	
+	write(0, "\b\b  \b\b", 6);
 }

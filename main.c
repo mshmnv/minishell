@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:23:45 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/21 14:45:27 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/22 11:45:37 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ void	shell_loop(char **env_data)
 	all->env_data = env_data;
 	all->fd[0] = 0;		// output
 	all->fd[1] = 1;		// input
-	// ignore_signals();
+	ignore_signals();
 	while (21)
 	{
 		cmds = new_cmd_list();
 		all->cmds = cmds;
-		ft_putstr_fd("shell > ", 1);
+		ft_putstr_fd(PROMPT, 1);
 		get_next_line(0, &line);
 
 		parsing(line, cmds, all->env_data);

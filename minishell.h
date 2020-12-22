@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/21 14:57:23 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/22 13:08:43 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 # include <stdio.h>
 
+# define PROMPT "shell > "
 
 typedef struct	s_builtin
 {
@@ -75,9 +76,9 @@ void			shell_loop(char **env_data);
  * launch.c
  */
 char			**launch(t_all *all);
-char			**execute(char **args, char **env_data);
-void 			execute_process(char **args, char **env_data);
-void			find_cmd(char **args, char **env_data);
+char			**execute(char **args, char **env_data, t_all *all);
+void 			execute_process(char **args, char **env_data, t_all *all);
+void			find_cmd(char **args, char **env_data, t_all *all);
 /*
  * error.c
  */
