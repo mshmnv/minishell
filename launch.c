@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/22 13:17:57 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/22 19:43:59 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char	**launch(t_all *all)
 	t_command	*tmp;
 	int			i;
 	char		**args;
-	int			flag;
 
 	i = 0;
 	tmp = all->cmds;
@@ -37,12 +36,7 @@ char	**launch(t_all *all)
 		if ((args = ft_strtok(tmp->command, " \n\t")))
 		{
 			if (tmp->pipe_flag)
-			{
-				flag = 1;
-				execute_pipe(args, all, flag);
-			}
-			else
-				flag = 0;
+				execute_pipe(args, all, &tmp);
 			if (tmp->redir_flag)
 				execute_redir(args, tmp, all->env_data);
 			all->env_data = execute(args, all->env_data, all);
@@ -114,13 +108,9 @@ void 	execute_process(char **args, char **env_data, t_all *all)
 {
 	pid_t	pid;
 	
-	pipe(all->fd);
 	pid = fork();
 	if (pid == 0) 
 	{
-		dup2(all->fd[1], STDIN_FILENO);
-		close(all->fd[0]);
-		close(all->fd[1]);
 		if (execve(args[0], args, env_data) == -1)
 			error("Failed to execute!");
 	}

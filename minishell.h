@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/22 13:08:43 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/22 19:32:00 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void			free_cmd_list(t_command **cmds);
 /*
  * pipes.c
  */
-void			execute_pipe(char **args, t_all *all, int pipe_before);
+void			execute_pipe(char **args, t_all *all, t_command **cmds);
 
 /*
  * redirects.c
