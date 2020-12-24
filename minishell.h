@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/23 14:38:13 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/24 22:36:19 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <sys/stat.h>
 # include <signal.h>
+#include <fcntl.h>
 
 # include <stdio.h>
 
@@ -37,16 +38,14 @@ typedef struct				s_command
 		int					redir_flag;
 		char				*in_fname;
 		char				*out_fname;
+		int					file;
 		int					append;
-		// int					error_flag;
 		struct s_command	*next;
-		
 }							t_command;
 
 typedef struct				s_all
 {
 	char					**env_data;
-	int						fd[2];
 	t_command				*cmds;
 }							t_all;
 
@@ -75,8 +74,8 @@ void			shell_loop(char **env_data);
 /*
  * launch.c
  */
-char			**launch(t_all *all);
-char			**execute(char **args, t_all *all);
+void			launch(t_all *all);
+void			execute(char **args, t_all *all);
 void 			execute_process(char **args, t_all *all);
 void			find_cmd(char **args, char **env_data, t_all *all);
 /*
@@ -106,11 +105,11 @@ void			free_cmd_list(t_command **cmds);
 /*
  * pipes.c
  */
-void			execute_pipe(char **args, t_all *all, t_command **cmds);
-
+void			execute_pipe(char ***args, t_all *all, t_command **cmds);
+void			child_pipe(char **args, int *fd, int save_fd, t_all *all);
 /*
  * redirects.c
  */
-void			execute_redir(char **args, t_command *cmd, char **env_data);
+void			execute_redirects(char **args, t_command *cmd, t_all *all);
 
 # endif

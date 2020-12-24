@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 01:50:26 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/21 13:40:37 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/24 22:14:43 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_command	*new_cmd_list()
 		cmds->in_fname = NULL;
 		cmds->out_fname = NULL;
 		cmds->append = 0;
+		cmds->file = -1;
 		cmds->next = NULL;
 	}
 	return (cmds);

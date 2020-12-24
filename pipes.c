@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 17:38:57 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/24 13:44:54 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/24 21:34:59 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@
 // 	}
 // 	else
 // 		waitpid(pid, &status, WUNTRACED);
-	
 // }
 
 void	child_pipe(char **args, int *fd, int save_fd, t_all *all)
@@ -68,7 +67,7 @@ void	child_pipe(char **args, int *fd, int save_fd, t_all *all)
 }
 
 
-void	execute_pipe(char **args, t_all *all, t_command **cmds)
+void	execute_pipe(char ***args, t_all *all, t_command **cmds)
 {
 	pid_t		pid;
 	int			not_last;
@@ -77,59 +76,41 @@ void	execute_pipe(char **args, t_all *all, t_command **cmds)
 	int			fd[2];
 
 	not_last = 1;
-	int i =0 ;
-	
-	pipe(fd);
-
 	save_fd = dup(STDIN_FILENO);
-	while (i < 2)
+	while (not_last)
 	{
-		// if ((*cmds)->pipe_flag)
-			// pipe(fd);
-		// else
-			// not_last = 0;
+		if ((*cmds)->pipe_flag)
+			pipe(fd);
+		else
+			not_last = 0;
 		if ((pid = fork()) < 0)
 			error("Failed to fork!");
 		else if (pid == 0)
-			child_pipe(args, fd, save_fd, all);
+			child_pipe(*args, fd, save_fd, all);
 		else
 			waitpid(pid, &status, WUNTRACED);
 		close(save_fd);
 		close(fd[1]);
 		save_fd = fd[0];
-		// if (not_last)
-		// {
-			if (i == 0)
-			{
+		if (not_last)
+		{
 			(*cmds) = (*cmds)->next;
-			free_arr(args);
-			args = ft_strtok((*cmds)->command, " \n\t");
-			}
-		// }
-		i++;
+			free_arr(*args);
+			*args = ft_strtok((*cmds)->command, " \n\t");
+		}
 	}
-	// exit(0);
-
 }
-
-
 
 // void	execute_pipe(char **args, t_all *all, t_command **cmds)
 // {
 // 	pid_t		pid;
 // 	int			save_fd;
-// 	t_command	*next;
 //  	int			status;
 // 	char 		**arg2;
 	
-// 	// while ((*cmds)->pipe_flag)
-// 	// {
 // 		(*cmds) = (*cmds)->next;
-
 // 		arg2 = ft_strtok((*cmds)->command, " \n\t");
-		
 // 		pipe(all->fd);
-
 // 		if ((pid = fork()) < 0)
 // 			error("Failed to fork!");
 // 		else if (pid == 0)  //STDOUT - 1
@@ -142,7 +123,6 @@ void	execute_pipe(char **args, t_all *all, t_command **cmds)
 // 			dup2(save_fd, STDOUT_FILENO);
 // 			close(save_fd);
 // 			exit(EXIT_SUCCESS);
-
 // 		}
 // 		else
 // 		{

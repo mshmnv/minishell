@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:23:45 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/24 15:10:41 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/24 21:34:01 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void	shell_loop(char **env_data)
 	
 	line = NULL;
 	all->env_data = env_data;
-	all->fd[0] = 0;		// output
-	all->fd[1] = 1;		// input
 	// ignore_signals();
 	while (21)
 	{
@@ -63,7 +61,7 @@ void	shell_loop(char **env_data)
 
 		parsing(line, cmds, all->env_data);
 
-		all->env_data = launch(all);
+		launch(all);
 	
 		free_cmd_list(&cmds);
 		free(line);

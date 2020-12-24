@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/23 23:45:42 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/24 22:12:29 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_builtin		g_builtin[] =
 	{"exit", &cmd_exit},
 };
 
-char	**launch(t_all *all)
+void	launch(t_all *all)
 {
 	t_command	*tmp;
 	int			i;
@@ -36,16 +36,15 @@ char	**launch(t_all *all)
 		if ((args = ft_strtok(tmp->command, " \n\t")))
 		{
 			if (tmp->pipe_flag)
-				execute_pipe(args, all, &tmp);
-			if (tmp->redir_flag)
-				execute_redir(args, tmp, all->env_data);
+				execute_pipe(&args, all, &tmp);
+			else if (tmp->redir_flag)
+				execute_redirects(args, tmp, all);
 			else
-				all->env_data = execute(args, all);
+				execute(args, all);
 			free_arr(args);
 		}
 		tmp = tmp->next;
 	}
-	return (all->env_data);
 }
 
 void	find_cmd(char **args, char **env_data, t_all *all)
@@ -86,7 +85,7 @@ void	find_cmd(char **args, char **env_data, t_all *all)
 	ft_putendl_fd(args[0], 1);
 }
 
-char	**execute(char **args, t_all *all)
+void	execute(char **args, t_all *all)
 {
 	int			i;
 	struct stat	stats;
@@ -95,14 +94,16 @@ char	**execute(char **args, t_all *all)
 	while (i < 7)
 	{
 		if (!(ft_strncmp(args[0], g_builtin[i].name, ft_strlen(g_builtin[i].name))))
-			return (g_builtin[i].func(args, all->env_data));		
+		{
+			all->env_data = g_builtin[i].func(args, all->env_data);
+			return ;
+		}
 		i++;
 	}
 	if (stat(args[0], &stats) == 0)
 		execute_process(args, all);
 	else
 		find_cmd(args, all->env_data, all);
-	return (all->env_data);
 }
 
 void 	execute_process(char **args, t_all *all)
