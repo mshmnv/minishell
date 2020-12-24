@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/22 19:32:00 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/23 14:38:13 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void			shell_loop(char **env_data);
  * launch.c
  */
 char			**launch(t_all *all);
-char			**execute(char **args, char **env_data, t_all *all);
-void 			execute_process(char **args, char **env_data, t_all *all);
+char			**execute(char **args, t_all *all);
+void 			execute_process(char **args, t_all *all);
 void			find_cmd(char **args, char **env_data, t_all *all);
 /*
  * error.c

@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/22 19:43:59 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/23 23:45:42 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ char	**launch(t_all *all)
 				execute_pipe(args, all, &tmp);
 			if (tmp->redir_flag)
 				execute_redir(args, tmp, all->env_data);
-			all->env_data = execute(args, all->env_data, all);
+			else
+				all->env_data = execute(args, all);
 			free_arr(args);
 		}
 		tmp = tmp->next;
@@ -74,7 +75,7 @@ void	find_cmd(char **args, char **env_data, t_all *all)
 			args[0] = new;
 			free(tmp);
 			free_arr(path);
-			execute_process(args, env_data, all);
+			execute_process(args, all);
 			return ;
 		}
 		i++;
@@ -85,7 +86,7 @@ void	find_cmd(char **args, char **env_data, t_all *all)
 	ft_putendl_fd(args[0], 1);
 }
 
-char	**execute(char **args, char **env_data, t_all *all)
+char	**execute(char **args, t_all *all)
 {
 	int			i;
 	struct stat	stats;
@@ -94,29 +95,28 @@ char	**execute(char **args, char **env_data, t_all *all)
 	while (i < 7)
 	{
 		if (!(ft_strncmp(args[0], g_builtin[i].name, ft_strlen(g_builtin[i].name))))
-			return (g_builtin[i].func(args, env_data));		
+			return (g_builtin[i].func(args, all->env_data));		
 		i++;
 	}
 	if (stat(args[0], &stats) == 0)
-		execute_process(args, env_data, all);
+		execute_process(args, all);
 	else
-		find_cmd(args, env_data, all);
-	return (env_data);
+		find_cmd(args, all->env_data, all);
+	return (all->env_data);
 }
 
-void 	execute_process(char **args, char **env_data, t_all *all)
+void 	execute_process(char **args, t_all *all)
 {
 	pid_t	pid;
 	
 	pid = fork();
-	if (pid == 0) 
+	if (pid == 0)
 	{
-		if (execve(args[0], args, env_data) == -1)
+		if (execve(args[0], args, all->env_data) == -1)
 			error("Failed to execute!");
 	}
 	else if (pid < 0)
 		error("Failed to fork!");
 	else
 		wait(&pid);
-
 }
