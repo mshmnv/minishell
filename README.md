@@ -10,7 +10,7 @@
 - [X] **exit** without any options
 - [X] Command separates with: **;**
 - [X] **'** and **"** (except for multiline commands)
-- [ ] Redirections: **<> ">>"**
+- [X] Redirections: **<> ">>"**
 - [ ] Pipes: **|**
 - [X] Environmental variables: **$**
 - [ ] **$?**
