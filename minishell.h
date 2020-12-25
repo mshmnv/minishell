@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/24 22:36:19 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/25 13:32:26 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,17 @@
 # include <unistd.h>
 # include <sys/stat.h>
 # include <signal.h>
-#include <fcntl.h>
+# include <fcntl.h>
+# include <errno.h>
+
 
 # include <stdio.h>
 
 # define PROMPT "shell > "
+# define ER_FORK 0
+# define ER_EXECUTE 1
+// # define ER_SYNTAX 2
+
 
 typedef struct	s_builtin
 {
@@ -49,6 +55,12 @@ typedef struct				s_all
 	t_command				*cmds;
 }							t_all;
 
+/*
+ * Globals
+ */
+int				g_error;
+int				g_home;
+ 
 /*
  * builtins
  */
@@ -81,7 +93,11 @@ void			find_cmd(char **args, char **env_data, t_all *all);
 /*
  * error.c
  */
-void			error(char *message);
+void			error(int error);
+void			error_errno();
+void			error_no_cmd(char *arg);
+void			error_exit(char *arg);
+
 /*
  * parsing.c
  */

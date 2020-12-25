@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 17:38:57 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/24 21:34:59 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/25 12:37:47 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	execute_pipe(char ***args, t_all *all, t_command **cmds)
 		else
 			not_last = 0;
 		if ((pid = fork()) < 0)
-			error("Failed to fork!");
+			error(ER_FORK);
 		else if (pid == 0)
 			child_pipe(*args, fd, save_fd, all);
 		else

@@ -31,6 +31,7 @@ ls ; ls ; ; ; 		- > (bash: syntax error near unexpected token `;')
 
 export USER=name ; echo $USER   - > (name)
 echo " sksk   ls"
+ls;pwd
 
 ```
 

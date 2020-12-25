@@ -6,19 +6,13 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:42:36 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/16 00:45:42 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/25 11:54:13 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	error_exit(char *arg)
-{
-	ft_putstr_fd("minishell: exit: ", 1);
-	ft_putstr_fd(arg, 1);
-	ft_putendl_fd(": numeric argument required", 1);
-	exit(255);
-}
+
 
 char		**cmd_exit(char **args, char **env_data)
 {
@@ -29,9 +23,9 @@ char		**cmd_exit(char **args, char **env_data)
 	while (args[i])
 		i++;
 	if (i == 1)
-		exit(0);
+		exit(EXIT_SUCCESS);
 	if (i > 2)
-		ft_putendl_fd("minishell: exit: too many arguments", 1);
+		ft_putendl_fd("shell: exit: too many arguments", 1);
 	else if (i == 2)
 	{
 		i = 0;

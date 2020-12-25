@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:23:45 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/24 21:34:01 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/25 12:46:05 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		main(int argc, char **argv, char **envp)
 	char **env_data;
 	
 	env_data = read_envp(envp);
+	g_error = 0;
+	ignore_signals();
 	shell_loop(env_data);
 	return (0);
 }
@@ -51,7 +53,6 @@ void	shell_loop(char **env_data)
 	
 	line = NULL;
 	all->env_data = env_data;
-	// ignore_signals();
 	while (21)
 	{
 		cmds = new_cmd_list();

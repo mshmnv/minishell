@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/24 22:12:29 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/25 13:11:04 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,7 @@ void	find_cmd(char **args, char **env_data, t_all *all)
 		free(new);
 	}
 	free_arr(path);
-	ft_putstr_fd("minishell: command not found: ", 1);
-	ft_putendl_fd(args[0], 1);
+	error_no_cmd(args[0]);
 }
 
 void	execute(char **args, t_all *all)
@@ -109,15 +108,19 @@ void	execute(char **args, t_all *all)
 void 	execute_process(char **args, t_all *all)
 {
 	pid_t	pid;
+	int		status;
 	
-	pid = fork();
+	if ((pid = fork()) < 0)
+		error(ER_FORK);
 	if (pid == 0)
 	{
 		if (execve(args[0], args, all->env_data) == -1)
-			error("Failed to execute!");
+			error(ER_EXECUTE);
 	}
-	else if (pid < 0)
-		error("Failed to fork!");
 	else
-		wait(&pid);
+		wait(&status);
+	// ft_putnbr_fd(status, 1);
+	// g_error = status % 256;
+	// ft_putnbr_fd(g_error, 1);
+	// ft_putnbr_fd(errno, 1);
 }

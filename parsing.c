@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 22:07:10 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/21 14:19:27 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/25 13:03:43 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,10 @@ int		parse_quotes(char **env_data, char *line, char **command)
 	int		j;
 	char	quote;
 
+
 	quote = line[0];
 	i = 1;
+	j = 0;
 	while (line[i] && line[i] != quote)
 	{
 		if (line[i] == '$' && quote == '"')
@@ -75,13 +77,13 @@ int		parse_quotes(char **env_data, char *line, char **command)
 				i++;
 			if (*command)
 				j = ft_strlen(*command);
-			*command = ft_realloc(*command, j + 1);
-			(*command)[j] = line[i];
+			*command = ft_realloc(*command, j + 1); //can't allocate
+
+			(*command)[j] = line[i];  //seg
+
 		}
 		i++;
 	}
-	if (line[i] == quote)
-		return (i);
 	return (i);	
 }
 
@@ -92,6 +94,15 @@ int		parse_env_value(char **env_data, char *line, char **command)
 	char	*tmp;
 
 	i = 0;
+	if (line[i] == '?')
+	{
+		tmp = *command;
+		*command = ft_strjoin(*command, ft_itoa(g_error));
+		free(tmp);
+		return (1);
+	}
+	if (!ft_isalpha(line[i]) || line[i] != '_')
+		return (1);
 	while (env_data[i])
 	{
 		j = 0;
@@ -131,8 +142,6 @@ void	parsing(char *line, t_command *cmds, char **env_data)
 			{
 				tmp->redir_flag = 1;
 				line += parse_redirects(*line, line + 1, tmp);
-				ft_putendl_fd(tmp->in_fname, 1);
-				ft_putendl_fd(tmp->out_fname, 1);
 			}
 			tmp->command = command;
 			command = NULL;
