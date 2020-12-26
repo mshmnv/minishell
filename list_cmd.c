@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 01:50:26 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/24 22:14:43 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/26 13:14:37 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_command	*new_cmd_list()
 		cmds->file = -1;
 		cmds->next = NULL;
 	}
+	else
+		error(ER_MALLOC);
 	return (cmds);
 }
 

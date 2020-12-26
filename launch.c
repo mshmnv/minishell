@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/25 13:11:04 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/26 13:19:30 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	find_cmd(char **args, char **env_data, t_all *all)
 		i++;
 	if (!env_data[i])
 		return ;
-	path = ft_strtok(env_data[i] + 5, ":");
+	if (!(path = ft_strtok(env_data[i] + 5, ":")))
+		error(ER_MALLOC);
 	i = 0;
 	while (path[i])
 	{

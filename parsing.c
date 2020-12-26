@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 22:07:10 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/25 13:03:43 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/26 13:44:13 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int		parse_redirects(char redir_symb, char *line, t_command *cmds)
 		i++;
 		j++;
 	}
-	fname = (char*)malloc(sizeof(char) * (j + 1));
+	if (!(fname = (char*)malloc(sizeof(char) * (j + 1))))
+		error(ER_MALLOC);
 	ft_strlcpy(fname, line + start, j + 1);
 	if (redir_symb == '>')
 		cmds->out_fname = fname;
@@ -77,10 +78,9 @@ int		parse_quotes(char **env_data, char *line, char **command)
 				i++;
 			if (*command)
 				j = ft_strlen(*command);
-			*command = ft_realloc(*command, j + 1); //can't allocate
-
-			(*command)[j] = line[i];  //seg
-
+			if (!(*command = ft_realloc(*command, j + 1)))
+				error(ER_MALLOC);
+			(*command)[j] = line[i];
 		}
 		i++;
 	}
@@ -97,7 +97,8 @@ int		parse_env_value(char **env_data, char *line, char **command)
 	if (line[i] == '?')
 	{
 		tmp = *command;
-		*command = ft_strjoin(*command, ft_itoa(g_error));
+		if (!(*command = ft_strjoin(*command, ft_itoa(g_error))))
+			error(ER_MALLOC);
 		free(tmp);
 		return (1);
 	}
@@ -111,7 +112,8 @@ int		parse_env_value(char **env_data, char *line, char **command)
 		if (env_data[i][j] && env_data[i][j] == '=')
 		{
 			tmp = *command;
-			*command = ft_strjoin(*command, env_data[i] + j + 1);
+			if (!(*command = ft_strjoin(*command, env_data[i] + j + 1)))
+				error(ER_MALLOC);
 			free(tmp);
 			return (j);
 		}
@@ -130,7 +132,6 @@ void	parsing(char *line, t_command *cmds, char **env_data)
 	t_command *tmp;
 
 	tmp = cmds;
-	j = 0;
 	command = NULL;
 	while (*line)
 	{
@@ -145,7 +146,8 @@ void	parsing(char *line, t_command *cmds, char **env_data)
 			}
 			tmp->command = command;
 			command = NULL;
-			tmp->next = new_cmd_list();
+			if (!(tmp->next = new_cmd_list()))
+				error(ER_MALLOC);
 			tmp = tmp->next;
 			line++;
 		}
@@ -155,11 +157,13 @@ void	parsing(char *line, t_command *cmds, char **env_data)
 			line += parse_env_value(env_data, line + 1, &command) + 1;
 		else
 		{
+			j = 0;
 			if (*line == '\\')
 				line++;
 			if (command)
 				j = ft_strlen(command);
-			command = ft_realloc(command, j + 1);
+			if (!(command = ft_realloc(command, j + 1)))
+				error(ER_MALLOC);
 			command[j] = *line;
 			line++;
 		}

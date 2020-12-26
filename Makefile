@@ -19,7 +19,7 @@ $(NAME): $(SRCO) $(LIBFT) minishell.h
 	@gcc libft/libft.a $(SRCO) -o $(NAME)
 
 $(LIBFT):
-	@make -g -C ./libft
+	@make -C ./libft
 
 %.o:%.c minishell.h
 	@gcc -g -c $< -o $@

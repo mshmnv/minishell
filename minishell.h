@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/25 13:32:26 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/26 14:34:26 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 # include <fcntl.h>
 # include <errno.h>
 
-
 # include <stdio.h>
 
 # define PROMPT "shell > "
 # define ER_FORK 0
 # define ER_EXECUTE 1
-// # define ER_SYNTAX 2
+# define ER_MALLOC 2
+// # define ER_SYNTAX 3
 
 
 typedef struct	s_builtin
@@ -109,7 +109,7 @@ char			is_any_symb(char ch, char *to_find);
 /*
  * signals.c
  */
-void			ignore_signals();
+void			handle_signals();
 void			sigint(int sig);
 void			sigquit(int sig);
 /*

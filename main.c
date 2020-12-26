@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:23:45 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/25 12:46:05 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/26 14:35:37 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int		main(int argc, char **argv, char **envp)
 	
 	env_data = read_envp(envp);
 	g_error = 0;
-	ignore_signals();
+	
+	signal(SIGINT, sigint);
+	signal(SIGQUIT, sigquit);
+	
 	shell_loop(env_data);
 	return (0);
 }
@@ -32,11 +35,13 @@ char	**read_envp(char **envp)
 	i = 0;
 	while (envp[i])
 		i++;
-	env_data = (char**)malloc(sizeof(char*) * (i + 1));
+	if (!(env_data = (char**)malloc(sizeof(char*) * (i + 1))))
+		error(ER_MALLOC);
 	i = 0;
 	while(envp[i])
 	{
-		env_data[i] = ft_strdup(envp[i]);
+		if (!(env_data[i] = ft_strdup(envp[i])))
+			error(ER_MALLOC);
 		i++;
 	}
 	env_data[i] = NULL;
@@ -59,14 +64,10 @@ void	shell_loop(char **env_data)
 		all->cmds = cmds;
 		ft_putstr_fd(PROMPT, 1);
 		get_next_line(0, &line);
-
 		parsing(line, cmds, all->env_data);
-
 		launch(all);
-	
 		free_cmd_list(&cmds);
 		free(line);
 		line = NULL;
-		
 	}
 }

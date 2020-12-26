@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 14:56:31 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/25 13:30:09 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/26 14:33:59 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 // signal(int signum, sighandler);
 
-void	ignore_signals()
+void	handle_signals()
 {
 	signal(SIGINT, sigint);
 	signal(SIGQUIT, sigquit);
