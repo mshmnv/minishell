@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 17:38:57 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/25 12:37:47 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/27 16:39:52 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,42 +100,3 @@ void	execute_pipe(char ***args, t_all *all, t_command **cmds)
 		}
 	}
 }
-
-// void	execute_pipe(char **args, t_all *all, t_command **cmds)
-// {
-// 	pid_t		pid;
-// 	int			save_fd;
-//  	int			status;
-// 	char 		**arg2;
-	
-// 		(*cmds) = (*cmds)->next;
-// 		arg2 = ft_strtok((*cmds)->command, " \n\t");
-// 		pipe(all->fd);
-// 		if ((pid = fork()) < 0)
-// 			error("Failed to fork!");
-// 		else if (pid == 0)  //STDOUT - 1
-// 		{
-// 			save_fd = dup(STDOUT_FILENO);
-// 			close(all->fd[0]);
-// 			dup2(all->fd[1], STDOUT_FILENO);    // to write in fd[1]
-// 			close(all->fd[1]);
-// 			execute(args, all);
-// 			dup2(save_fd, STDOUT_FILENO);
-// 			close(save_fd);
-// 			exit(EXIT_SUCCESS);
-// 		}
-// 		else
-// 		{
-// 			save_fd = dup(STDIN_FILENO);
-// 			close(all->fd[1]);
-// 			dup2(all->fd[0], STDIN_FILENO);  	// to read from fd[0]]
-// 			close(all->fd[0]);
-// 			execute(arg2, all);
-// 			dup2(save_fd, STDIN_FILENO);
-// 			close(save_fd);
-// 			waitpid(pid, &status, WUNTRACED);
-// 		}
-// 		close(all->fd[0]);
-// 		close(all->fd[1]);
-// 	// }
-// }

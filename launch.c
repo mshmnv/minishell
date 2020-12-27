@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/26 13:19:30 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/27 17:12:29 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,17 @@ void 	execute_process(char **args, t_all *all)
 	if (pid == 0)
 	{
 		if (execve(args[0], args, all->env_data) == -1)
+		{
 			error(ER_EXECUTE);
+			// errno = WEXITSTATUS(status);
+			// error_errno();
+		}
 	}
 	else
 		wait(&status);
-	// ft_putnbr_fd(status, 1);
+	// ft_putnbr_fd(errno, 1); // 2
+	// ft_putnbr_fd(WEXITSTATUS(status), 1);
+
 	// g_error = status % 256;
 	// ft_putnbr_fd(g_error, 1);
 	// ft_putnbr_fd(errno, 1);

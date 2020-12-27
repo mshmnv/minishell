@@ -17,7 +17,6 @@ all: $(NAME)
 
 $(NAME): $(SRCO) $(LIBFT) minishell.h
 	@gcc libft/libft.a $(SRCO) -o $(NAME)
-	@echo "helo"
 
 $(LIBFT):
 	@make -C ./libft

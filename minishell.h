@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/26 14:34:26 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/27 16:22:04 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@
 # define ER_FORK 0
 # define ER_EXECUTE 1
 # define ER_MALLOC 2
-// # define ER_SYNTAX 3
+# define ER_OPEN 3
+// # define ER_SYNTAX 4
 
 
 typedef struct	s_builtin

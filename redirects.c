@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 13:00:49 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/24 22:48:08 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/27 16:29:09 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,37 @@
 
 int		open_flags(t_command *cmds)
 {
-	if (cmds->out_fname && !cmds->append)
-		return (O_CREAT | O_WRONLY);			//O_TRUNC
-	if (cmds->out_fname && cmds->append)
-		return (O_CREAT | O_WRONLY | O_APPEND);
-	else
-		return (O_RDONLY);
-	
+	if (cmds->out_fname)
+	{
+		if (!cmds->append)
+			return(open(cmds->out_fname, O_CREAT | O_WRONLY | O_TRUNC, 0777));
+		else
+			return(open(cmds->out_fname, O_CREAT | O_WRONLY | O_APPEND, 0777));
+	}
+	return(open(cmds->in_fname, O_RDONLY));
 }
 
 void	execute_redirects(char **args, t_command *cmds, t_all *all)
 {
-	int file;
-	int	fd_left;
-	int	flags;
+	int fd_file;
+	int	fd_tmp;
+	int	fd_old;
 		
-	flags = open_flags(cmds);
+	if ((fd_file = open_flags(cmds)) == -1)
+		error(ER_OPEN);
 	if (cmds->out_fname)
 	{
-		file = open(cmds->out_fname, flags);
-		fd_left = STDOUT_FILENO;
+		fd_old = dup(STDOUT_FILENO);
+		fd_tmp = dup2(fd_file, STDOUT_FILENO);
 	}
 	else
 	{
-		file = open(cmds->in_fname, flags);
-		fd_left = STDOUT_FILENO;
+		fd_old = dup(STDIN_FILENO);
+		fd_tmp = dup2(fd_file, STDIN_FILENO);
 	}
-		
+	if (close(fd_file) == -1 || fd_tmp == -1)
+		return ; // error
+	execute(args, all);
+	if (dup2(fd_old, fd_tmp) == -1 || close(fd_old) == -1)
+		return ; // error
 }

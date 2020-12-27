@@ -1,5 +1,7 @@
 Makefile
 README.md
+a
+a2
 cmd_cd.c
 cmd_cd.o
 cmd_echo.c
@@ -42,4 +44,3 @@ redirects.o
 shell
 signals.c
 signals.o
-/Users/lbagg/Desktop/minishell
