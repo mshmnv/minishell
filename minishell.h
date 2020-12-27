@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/27 16:22:04 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/27 20:38:08 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,9 @@ char			is_any_symb(char ch, char *to_find);
 void			handle_signals();
 void			sigint(int sig);
 void			sigquit(int sig);
+void			handle_child_signals();
+void			child_signals(int sig);
+void			ignore_signals();
 /*
  * cmd_list.c
  */

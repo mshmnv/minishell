@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 17:38:57 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/27 16:39:52 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/27 18:02:23 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ void	child_pipe(char **args, int *fd, int save_fd, t_all *all)
 	}
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
+	// if (cmds->redir_flag)
+		// pipe_redirect();
 	execute(args, all);
+	
 	exit(EXIT_SUCCESS);
 }
 

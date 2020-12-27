@@ -33,7 +33,10 @@ export USER=name ; echo $USER   - > (name)
 echo " sksk   ls"
 (done)ls;pwd
 ls > a | cat -e
-ls > a | cat -e
+cat < file >> file2 | grep 111
+grep L < file | wc
+env | grep OG > s ; wc < s
+env grep OG > s ; cat s
 
 ```
 
