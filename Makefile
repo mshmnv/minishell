@@ -17,6 +17,7 @@ all: $(NAME)
 
 $(NAME): $(SRCO) $(LIBFT) minishell.h
 	@gcc libft/libft.a $(SRCO) -o $(NAME)
+	@echo "helo"
 
 $(LIBFT):
 	@make -C ./libft
@@ -35,3 +36,4 @@ re: fclean all
 
 norme:
 	@norminette $(SRC) minishell.h ./libft/*.c
+
