@@ -6,138 +6,69 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/23 15:31:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/06/11 16:49:47 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/28 21:08:59 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	del_element(t_descr **head, int fd)
+int		cut_line(char **line, char **remainder)
 {
-	t_descr *tmp;
-	t_descr *prev;
-
-	prev = NULL;
-	tmp = *head;
-	if (tmp && (tmp->fd == fd))
-	{
-		*head = tmp->next;
-		free(tmp->data);
-		free(tmp);
-		return ;
-	}
-	while (tmp)
-	{
-		prev = tmp;
-		tmp = tmp->next;
-		if (tmp->fd == fd)
-		{
-			prev->next = tmp->next;
-			free(tmp->data);
-			free(tmp);
-			return ;
-		}
-	}
-}
-
-int		cut_line(char **tmp_rem, char **line, char *ch, char **remainder)
-{
-	char	*tmp;
 	int		i;
 
 	i = 0;
-	if (ch)
-	{
-		while ((*tmp_rem)[i] != *ch)
-			i++;
-		if (!(*line = (char*)malloc(sizeof(char) * (i + 1))))
-			return (-1);
-		ft_strlcpy(*line, *tmp_rem, i + 1);
-		ch++;
-		if (!(tmp = ft_strdup(ch)))
-			return (-1);
-		ft_strlcpy(*remainder, tmp, ft_strlen(ch) + 1);
-		free(tmp);
-		return (1);
-	}
-	if (*tmp_rem)
-		if (!(*line = ft_strdup(*tmp_rem)))
-			return (-1);
+	while ((*remainder)[i] != '\n')
+		i++;
+	if (!(*line = (char*)malloc(sizeof(char) * (i + 1))))
+		return (-1);
+	ft_strlcpy(*line, *remainder, i + 1);
 	return (0);
 }
 
-int		read_file(int fd, char **remainder, char **line, char **ch)
+int		read_line(char **remainder, char **line)
 {
 	int		ret;
 	char	*buf;
-	char	*tmp_rem;
 	int		res;
 	char	*tmp;
 
+	ret = 1;
 	if (!(buf = (char*)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
-	if (!(tmp_rem = ft_strdup(*remainder)))
-		return (-1);
-	while (!*ch && (ret = read(fd, buf, BUFFER_SIZE)))
+	while (buf[0] != '\n' && ret != 0)
 	{
-		if (ret < 0)
-			return (-1);
+		ret = read(0, buf, BUFFER_SIZE);
 		buf[ret] = '\0';
-		tmp = tmp_rem;
-		if (!(tmp_rem = ft_strjoin(tmp, buf)))
+		tmp = *remainder;
+		if (!(*remainder = ft_strjoin(*remainder, buf)))
 			return (-1);
 		free(tmp);
-		*ch = ft_strchr(tmp_rem, '\n');
+		if (ret == 0 && (*remainder)[0] == 0)
+		{
+			write(1, "exit\n", 6);
+			exit(0);
+		}
+		else if (ret == 0)
+		{
+			ret = 1;
+			write(0, "  \b\b", 4);
+		}
 	}
 	free(buf);
-	res = cut_line(&tmp_rem, line, *ch, remainder);
-	free(tmp_rem);
+	res = cut_line(line, remainder);
 	return (res);
 }
 
-t_descr	*new_list(int fd)
+int		get_next_line(char **line)
 {
-	t_descr	*new;
-	int		i;
-
-	i = 0;
-	if (!(new = (t_descr*)malloc(sizeof(t_descr))))
-		return (NULL);
-	new->fd = fd;
-	if (!(new->data = (char*)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
-		return (NULL);
-	while (i <= BUFFER_SIZE)
-	{
-		(new->data)[i] = 0;
-		i++;
-	}
-	new->next = NULL;
-	return (new);
-}
-
-int		get_next_line(int fd, char **line)
-{
-	static t_descr	*list;
-	t_descr			*tmp;
 	int				out;
-	char			*ch;
+	char			*remainder;
 
-	ch = NULL;
-	if (fd < 0 || !line || BUFFER_SIZE < 1)
+	if (!line)
 		return (-1);
-	if (!list)
-		if (!(list = new_list(fd)))
-			return (-1);
-	tmp = list;
-	while (tmp->fd != fd)
-	{
-		if (tmp->next == NULL)
-			if (!(tmp->next = new_list(fd)))
-				return (-1);
-		tmp = tmp->next;
-	}
-	ch = ft_strchr(tmp->data, '\n');
-	if ((out = read_file(fd, &tmp->data, line, &ch)) <= 0)
-		del_element(&list, tmp->fd);
+	remainder = ft_strdup("");
+	if ((out = read_line(&remainder, line)) <= 0)
+		return(-1);
+	free(remainder);
 	return (out);
 }

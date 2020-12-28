@@ -54,12 +54,12 @@ BONUSO = $(BONUS:.c=.o)
 FLAGS = -Wall -Wextra -Werror -c
 
 %.o:%.c
-	gcc $(FLAGS) $< -o $@
+	@gcc $(FLAGS) $< -o $@
 
 all: $(NAME)
 
 $(NAME): $(SRCO)
-	ar rcs $(NAME) $(SRCO)
+	@ar rcs $(NAME) $(SRCO)
 	
 bonus: $(BONUSO)
 	ar rcs $(NAME) $(BONUSO)

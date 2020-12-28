@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:45:38 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/27 20:09:45 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/28 15:36:18 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,25 @@ void	error(int error)
 		ft_putendl_fd("shell: Failed to execute", 1);
 	else if (error == ER_MALLOC)
 		ft_putendl_fd("shell: Allocation failed", 1);
-	else if (ER_OPEN)
+	else if (ER_FILE)
 	{
-		g_error = 1; // || 127;
-		// errno = -5;
+		g_exit = 1;
 		error_errno();
 	}
-	// else if (ER_SYNTAX)
-	// {
-
-	// }
 }
 
 void	error_errno()
 {
 	char	*massege;
 	
-	g_error = errno;
 	massege = strerror(errno);
 	ft_putstr_fd("shell: ", 1);
-	ft_putendl_fd(massege, 1);	
+	ft_putendl_fd(massege, 1);
 }
 
 void	error_no_cmd(char *arg)
 {
-	g_error = 127;
+	g_exit = 127;
 	ft_putstr_fd("shell: ", 1);
 	ft_putstr_fd(arg, 1);
 	if (ft_strchr(arg, '/'))
@@ -59,4 +53,17 @@ void	error_exit(char *arg)
 	ft_putstr_fd(arg, 1);
 	ft_putendl_fd(": numeric argument required", 1);
 	exit(255);
+}
+
+void	error_cd(char *arg)
+{
+	g_exit = 1;
+	if (arg)
+	{
+		ft_putstr_fd("shell: cd: ", 1);
+		ft_putstr_fd(arg, 1);
+		ft_putendl_fd(": No such file or directory ", 1);
+	}
+	else
+		ft_putendl_fd("bash: cd: HOME not set", 1);
 }

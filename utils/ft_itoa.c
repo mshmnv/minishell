@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 13:22:57 by lbagg             #+#    #+#             */
-/*   Updated: 2020/05/14 14:59:50 by student          ###   ########.fr       */
+/*   Updated: 2020/12/28 23:40:51 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char			*ft_itoa(int n)
 	des = 1;
 	minus = (n < 0) ? 1 : 0;
 	tens = ft_tensnum(n);
-	if (!(res = ft_calloc(tens + minus + 1, sizeof(char))))
+	if (!(res = (char*)malloc(sizeof(char) * (tens + minus + 1))))
 		return (NULL);
 	if (minus)
 		res[i++] = '-';
@@ -47,5 +47,6 @@ char			*ft_itoa(int n)
 		n %= des;
 		des /= 10;
 	}
+	res[i] = '\0';
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:40:13 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/16 11:02:29 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/28 15:04:10 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ char		**cmd_cd(char **args, char **env_data)
 		change_env(env_data, oldir, dir);
 	}
 	else
-	{
-		ft_putstr_fd("cd: no such file or directory: ", 1);
-		ft_putendl_fd(dir, 1);
-	}
+		error_cd(dir);
 	free(oldir);
 	return (env_data);
 }

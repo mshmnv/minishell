@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/27 20:42:15 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/28 13:33:26 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,28 +111,21 @@ void 	execute_process(char **args, t_all *all)
 	pid_t	pid;
 	int		status;
 
-	ignore_signals();
 	if ((pid = fork()) < 0)
 		error(ER_FORK);
 	if (pid == 0)
 	{
-		handle_child_signals();
 		if (execve(args[0], args, all->env_data) == -1)
 			error(ER_EXECUTE);
 	}
 	else
 	{
-		wait(&status);
+		ignore_signals();
+		waitpid(pid, &status, WUNTRACED);
 		if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == 2)  // ctrl-C
-				g_error = 130;
-			if (WTERMSIG(status) == 3)  // ctrl-"\"
-				g_error = 131;
-			write(1, "\n", 1);
-		}
+			handle_child_signals(status);
 		else
-			g_error = WEXITSTATUS(status);
+			g_exit = WEXITSTATUS(status);
 		handle_signals();
 	}
 }

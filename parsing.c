@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 22:07:10 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/26 13:44:13 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/28 13:01:22 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int		parse_env_value(char **env_data, char *line, char **command)
 	if (line[i] == '?')
 	{
 		tmp = *command;
-		if (!(*command = ft_strjoin(*command, ft_itoa(g_error))))
+		if (!(*command = ft_strjoin(*command, ft_itoa(g_exit))))
 			error(ER_MALLOC);
 		free(tmp);
 		return (1);

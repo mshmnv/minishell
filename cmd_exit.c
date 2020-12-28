@@ -6,13 +6,11 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:42:36 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/25 11:54:13 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/28 15:01:46 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 char		**cmd_exit(char **args, char **env_data)
 {

@@ -2,31 +2,30 @@
 
 NAME = shell
 
-SRC =	main.c get_next_line/get_next_line.c \
+SRC =	utils/ft_strdup.c utils/ft_strlen.c utils/ft_strjoin.c utils/ft_strlcpy.c utils/ft_strnstr.c \
+		utils/ft_strchr.c utils/ft_strncmp.c utils/ft_memcpy.c \
+		utils/ft_putstr_fd.c utils/ft_putchar_fd.c utils/ft_putendl_fd.c \
+		utils/ft_isalnum.c utils/ft_isalpha.c utils/ft_isdigit.c \
+		utils/ft_itoa.c utils/ft_atoi.c \
+		main.c get_next_line/get_next_line.c \
 		ft_realloc.c ft_strtok.c free_arr.c \
 		launch.c error.c list_cmd.c parsing.c signals.c pipes.c redirects.c\
 		cmd_echo.c cmd_cd.c cmd_pwd.c cmd_export.c cmd_unset.c cmd_env.c cmd_exit.c
 
 SRCO = $(SRC:.c=.o)
 
-LIBFT = libft/libft.a
-
 FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): $(SRCO) $(LIBFT) minishell.h
-	@gcc libft/libft.a $(SRCO) -o $(NAME)
-
-$(LIBFT):
-	@make -C ./libft
+$(NAME): $(SRCO) minishell.h
+	@gcc $(SRCO) -o $(NAME)
 
 %.o:%.c minishell.h
 	@gcc -g -c $< -o $@
 
 clean:
 	@rm -f $(SRCO)
-	@make clean -C ./libft/
 
 fclean: clean
 	@rm -f $(NAME)
@@ -34,5 +33,5 @@ fclean: clean
 re: fclean all
 
 norme:
-	@norminette $(SRC) minishell.h ./libft/*.c
+	@norminette $(SRC) minishell.h
 

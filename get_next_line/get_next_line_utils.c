@@ -6,34 +6,11 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/21 18:06:42 by lbagg             #+#    #+#             */
-/*   Updated: 2020/06/08 18:00:15 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/28 23:17:05 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s)
-	{
-		if (*s == (char)c)
-			return ((char*)s);
-		s++;
-	}
-	if ((char)c == '\0')
-		return ((char*)s);
-	return (NULL);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
 
 char	*ft_strdup(const char *s)
 {

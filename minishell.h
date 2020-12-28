@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/28 18:18:09 by student          ###   ########.fr       */
+/*   Updated: 2020/12/28 23:47:33 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft/libft.h"
+# include "utils/libft.h"
 # include "get_next_line/get_next_line.h"
 # include <sys/types.h> 
 # include <unistd.h>
@@ -22,14 +22,11 @@
 # include <fcntl.h>
 # include <errno.h>
 
-# include <stdio.h>
-
 # define PROMPT "shell > "
 # define ER_FORK 0
 # define ER_EXECUTE 1
 # define ER_MALLOC 2
-# define ER_OPEN 3
-// # define ER_SYNTAX 4
+# define ER_FILE 3
 
 
 typedef struct	s_builtin
@@ -57,13 +54,11 @@ typedef struct				s_all
 }							t_all;
 
 /*
- * Globals
+ *		globals
  */
-int				g_error;
-int				g_home;
- 
+int				g_exit; 
 /*
- * builtins
+ * 		builtins
  */
 char			**cmd_echo(char **args, char **env_data);
 char			**cmd_cd(char **args, char **env_data);
@@ -73,7 +68,7 @@ char			**cmd_unset(char **args, char **env_data);
 char			**cmd_env(char **args, char **env_data);
 char			**cmd_exit(char **args, char **env_data);
 /*
- * will be moved to libft
+ *		will be moved to libft
  */
 char			*ft_realloc(char *str, int len);
 char			**ft_double_realloc(char **str, int len, char *line);
@@ -98,6 +93,7 @@ void			error(int error);
 void			error_errno();
 void			error_no_cmd(char *arg);
 void			error_exit(char *arg);
+void			error_cd(char *arg);
 
 /*
  * parsing.c
@@ -113,8 +109,7 @@ char			is_any_symb(char ch, char *to_find);
 void			handle_signals();
 void			sigint(int sig);
 void			sigquit(int sig);
-void			handle_child_signals();
-void			child_signals(int sig);
+void			handle_child_signals(int status);
 void			ignore_signals();
 /*
  * cmd_list.c

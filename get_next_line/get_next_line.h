@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/23 09:11:38 by lbagg             #+#    #+#             */
-/*   Updated: 2020/11/16 17:53:56 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/28 23:17:11 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,11 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
+# define BUFFER_SIZE 1
 
-typedef struct		s_descr
-{
-	int				fd;
-	char			*data;
-	struct s_descr	*next;
-}					t_descr;
-
-int					get_next_line(int fd, char **line);
-t_descr				*new_list(int fd);
-int					read_file(int fd, char **remainder, char **line, char **ch);
-int					cut_line(char **tmp_rem, char **line, char *ch,
-char **remainder);
-void				del_element(t_descr **head, int fd);
-char				*ft_strchr(const char *s, int c);
-size_t				ft_strlen(const char *s);
+int					get_next_line(char **line);
+int					read_line(char **remainder, char **line);
+int					cut_line(char **line, char **remainder);
 char				*ft_strdup(const char *s);
 char				*ft_strjoin(char const *s1, char const *s2);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);

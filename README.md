@@ -37,13 +37,14 @@ cat < file >> file2 | grep 111
 grep L < file | wc
 env | grep OG > s ; wc < s
 env grep OG > s ; cat s
-
+pwd ; ;
 ```
 
 ???
 ```
 not close quotes ( echo "hhhh  ) - mb no (subj: ' and " except for multiline commands)
 echo "$(echo "nnn")"
+sssss^D   (don't let me delete anything before ^D)
 ```
 
 
