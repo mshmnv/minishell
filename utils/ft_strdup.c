@@ -6,11 +6,11 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/29 21:56:40 by lbagg             #+#    #+#             */
-/*   Updated: 2020/05/06 10:43:11 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 00:07:55 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "utils.h"
 
 char	*ft_strdup(const char *s)
 {

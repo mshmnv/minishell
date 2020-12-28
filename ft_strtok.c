@@ -6,11 +6,11 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 12:57:58 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/26 13:20:17 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 00:02:57 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "utils.h"
 
 static int	count_chars(char *s, char *delim)
 {
@@ -75,7 +75,7 @@ char		**ft_strtok(char *s, char *delim)
 			else
 			{
 				if (!(tok[i] = (char*)malloc(sizeof(char) * (chars + 1))))
-					error(ER_MALLOC);
+					return (NULL);
 				while (*s && j < chars)
 				{
 					tok[i][j] = *s;

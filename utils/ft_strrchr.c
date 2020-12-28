@@ -6,11 +6,11 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/29 21:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/05/04 22:49:01 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 00:08:20 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "utils.h"
 
 char	*ft_strrchr(const char *s, int c)
 {

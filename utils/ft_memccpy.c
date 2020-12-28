@@ -6,11 +6,11 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/29 19:51:29 by lbagg             #+#    #+#             */
-/*   Updated: 2020/05/04 22:36:20 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 00:07:14 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "utils.h"
 
 void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 {

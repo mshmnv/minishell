@@ -6,17 +6,16 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/28 23:47:33 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 00:02:04 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "utils/libft.h"
+# include "utils/utils.h"
 # include "get_next_line/get_next_line.h"
 # include <sys/types.h> 
-# include <unistd.h>
 # include <sys/stat.h>
 # include <signal.h>
 # include <fcntl.h>
@@ -70,10 +69,10 @@ char			**cmd_exit(char **args, char **env_data);
 /*
  *		will be moved to libft
  */
-char			*ft_realloc(char *str, int len);
-char			**ft_double_realloc(char **str, int len, char *line);
-char			**ft_strtok(char *s, char *delim);
-void			free_arr(char **arr);
+// char			*ft_realloc(char *str, int len);
+// char			**ft_double_realloc(char **str, int len, char *line);
+// char			**ft_strtok(char *s, char *delim);
+// void			free_arr(char **arr);
 /*
  * main.c
  */

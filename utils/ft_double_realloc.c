@@ -1,16 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   ft_double_realloc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/29 21:53:12 by lbagg             #+#    #+#             */
-/*   Updated: 2020/04/29 21:53:52 by lbagg            ###   ########.fr       */
+/*   Created: 2020/12/29 00:00:36 by lbagg             #+#    #+#             */
+/*   Updated: 2020/12/29 00:06:28 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_tolower(int c)
+#include "utils.h"
+
+char	**ft_double_realloc(char **str, int len, char *line)
 {
-	return (c >= 65 && c <= 90 ? c + 32 : c);
+	char	**res;
+	int		i;
+
+	res = NULL;
+	i = 0;
+	if ((res = (char**)malloc(sizeof(char*) * (len + 1))))
+	{
+		while (str[i])
+		{
+			res[i] = ft_strdup(str[i]);
+			i++;
+		}
+		res[i] = ft_strdup(line);
+		res[i + 1] = NULL;
+		free_arr(str);
+	}
+	return (res);
 }

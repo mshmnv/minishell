@@ -6,11 +6,11 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/29 15:55:36 by lbagg             #+#    #+#             */
-/*   Updated: 2020/05/03 19:51:51 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 00:06:18 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "utils.h"
 
 void	ft_bzero(void *s, size_t n)
 {

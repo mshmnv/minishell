@@ -6,11 +6,11 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/29 20:35:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/05/13 12:33:53 by student          ###   ########.fr       */
+/*   Updated: 2020/12/29 00:08:03 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "utils.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {

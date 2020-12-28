@@ -6,11 +6,11 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/14 13:29:10 by lbagg             #+#    #+#             */
-/*   Updated: 2020/05/16 12:32:42 by student          ###   ########.fr       */
+/*   Updated: 2020/12/29 00:08:24 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "utils.h"
 
 char	*ft_strtrim(char const *s1, char const *set)
 {

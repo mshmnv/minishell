@@ -1,16 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/29 21:54:22 by lbagg             #+#    #+#             */
-/*   Updated: 2020/04/29 21:55:09 by lbagg            ###   ########.fr       */
+/*   Created: 2020/11/25 01:55:17 by lbagg             #+#    #+#             */
+/*   Updated: 2020/12/29 00:07:44 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_toupper(int c)
+#include "utils.h"
+
+char	*ft_realloc(char *str, int len)
 {
-	return (c >= 97 && c <= 122 ? c - 32 : c);
+	char	*res;
+	int		i;
+
+	i = 0;
+	res = NULL;
+	if ((res = (char*)malloc(sizeof(char) * (len + 1))))
+	{
+		while (str && str[i])
+		{
+			res[i] = str[i];
+			i++;
+		}
+		while (i <= len)
+		{
+			res[i] = '\0';
+			i++;
+		}
+		free(str);
+	}
+	return (res);
 }

@@ -6,11 +6,11 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 13:22:57 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/28 23:40:51 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 00:07:06 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "utils.h"
 
 static size_t	ft_tensnum(int n)
 {

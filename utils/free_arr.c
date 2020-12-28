@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   free_arr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/02 15:55:06 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 00:07:37 by lbagg            ###   ########.fr       */
+/*   Created: 2020/12/06 14:55:33 by lbagg             #+#    #+#             */
+/*   Updated: 2020/12/29 00:03:16 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-void	ft_putendl_fd(char *s, int fd)
+void	free_arr(char **arr)
 {
-	if (fd > 0)
+	int	i;
+
+	i = 0;
+	while (arr[i])
 	{
-		ft_putstr_fd(s, fd);
-		ft_putchar_fd('\n', fd);
+		free(arr[i]);
+		i++;
 	}
+	free(arr);
 }
