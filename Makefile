@@ -7,8 +7,8 @@ SRC =	utils/ft_strdup.c utils/ft_strlen.c utils/ft_strjoin.c utils/ft_strlcpy.c 
 		utils/ft_putstr_fd.c utils/ft_putchar_fd.c utils/ft_putendl_fd.c \
 		utils/ft_isalnum.c utils/ft_isalpha.c utils/ft_isdigit.c \
 		utils/ft_itoa.c utils/ft_atoi.c \
+		utils/ft_realloc.c utils/ft_double_realloc.c utils/ft_strtok.c utils/free_arr.c \
 		main.c get_next_line/get_next_line.c \
-		ft_realloc.c ft_strtok.c free_arr.c \
 		launch.c error.c list_cmd.c parsing.c signals.c pipes.c redirects.c\
 		cmd_echo.c cmd_cd.c cmd_pwd.c cmd_export.c cmd_unset.c cmd_env.c cmd_exit.c
 

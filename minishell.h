@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 00:02:04 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 00:15:05 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,6 @@ char			**cmd_export(char **args, char **env_data);
 char			**cmd_unset(char **args, char **env_data);
 char			**cmd_env(char **args, char **env_data);
 char			**cmd_exit(char **args, char **env_data);
-/*
- *		will be moved to libft
- */
-// char			*ft_realloc(char *str, int len);
-// char			**ft_double_realloc(char **str, int len, char *line);
-// char			**ft_strtok(char *s, char *delim);
-// void			free_arr(char **arr);
 /*
  * main.c
  */

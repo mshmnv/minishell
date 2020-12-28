@@ -10,11 +10,11 @@
 - [X] **exit** without any options
 - [X] Command separates with: **;**
 - [X] **'** and **"** (except for multiline commands)
-- [ ] Redirections: **<> ">>"**
+- [X] Redirections: **<> ">>"**
 - [X] Pipes: **|**
 - [X] Environmental variables: **$**
-- [ ] **$?**
-- [ ] Signals: **ctrl-C, ctrl-D, ctrl-\\**
+- [X] **$?**
+- [X] Signals: **ctrl-C, ctrl-D, ctrl-\\**
 
 
 ### CASES
