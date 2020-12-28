@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
+/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 17:38:57 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/27 18:02:23 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/28 18:19:26 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@
 // 		waitpid(pid, &status, WUNTRACED);
 // }
 
-void	child_pipe(char **args, int *fd, int save_fd, t_all *all)
+void	child_pipe(char **args, int *fd, int save_fd, t_all *all, t_command *cmds)
 {
 	if (save_fd != STDIN_FILENO)
 	{
@@ -64,7 +64,10 @@ void	child_pipe(char **args, int *fd, int save_fd, t_all *all)
 	close(fd[1]);
 	// if (cmds->redir_flag)
 		// pipe_redirect();
-	execute(args, all);
+	if (cmds && cmds->redir_flag)
+		execute_redirects(args, cmds, all);
+	else
+		execute(args, all);
 	
 	exit(EXIT_SUCCESS);
 }
@@ -89,7 +92,7 @@ void	execute_pipe(char ***args, t_all *all, t_command **cmds)
 		if ((pid = fork()) < 0)
 			error(ER_FORK);
 		else if (pid == 0)
-			child_pipe(*args, fd, save_fd, all);
+			child_pipe(*args, fd, save_fd, all, *cmds);
 		else
 			waitpid(pid, &status, WUNTRACED);
 		close(save_fd);

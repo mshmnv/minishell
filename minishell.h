@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
+/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/27 20:38:08 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/28 18:18:09 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void			free_cmd_list(t_command **cmds);
  * pipes.c
  */
 void			execute_pipe(char ***args, t_all *all, t_command **cmds);
-void			child_pipe(char **args, int *fd, int save_fd, t_all *all);
+void			child_pipe(char **args, int *fd, int save_fd, t_all *all, t_command *cmds);
 /*
  * redirects.c
  */
