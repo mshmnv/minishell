@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/23 15:31:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/28 21:08:59 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 18:04:38 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ int		get_next_line(char **line)
 	if (!line)
 		return (-1);
 	remainder = ft_strdup("");
-	if ((out = read_line(&remainder, line)) <= 0)
-		return(-1);
+	out = read_line(&remainder, line);
 	free(remainder);
 	return (out);
 }

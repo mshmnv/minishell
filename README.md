@@ -25,19 +25,25 @@
 
 *parser cases*
 ```
-ls ; ls ;  			  - > (ls ; ls)
+(done)ls ; ls ;  			  - > (ls ; ls)
 ls ; ls ; ; ; 		- > (bash: syntax error near unexpected token `;')
 ; ls 				      - > (bash: syntax error near unexpected token `;')
 
 export USER=name ; echo $USER   - > (name)
-echo " sksk   ls"
+echo "    sksk   ls"
+
 (done)ls;pwd
-ls > a | cat -e
-cat < file >> file2 | grep 111
-grep L < file | wc
-env | grep OG > s ; wc < s
-env grep OG > s ; cat s
-pwd ; ;
+(done)ls > a | cat -e
+(done)cat < file >> file2 | grep 111
+(done)grep L < file | wc
+(done)grep M < file | wc
+(done)env | grep OG > s ; wc < s
+(done)env grep OG > s ; cat s
+(done)pwd ; ;
+
+ls | |
+ls | | | | cat -e			(bash: syntax error near unexpected token `|')
+
 ```
 
 ???

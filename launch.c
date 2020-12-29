@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 17:36:20 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 22:00:11 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ t_builtin		g_builtin[] =
 	{"exit", &cmd_exit},
 };
 
-void	launch(t_all *all)
+void	launch(t_all *all, t_command *cmds)
 {
 	t_command	*tmp;
 	int			i;
 	char		**args;
 
 	i = 0;
-	tmp = all->cmds;
+	tmp = cmds;
 	while (tmp)
 	{
 		if ((args = ft_strtok(tmp->command, " \n\t")))
@@ -52,16 +52,15 @@ char	*join_path(char *path, char *arg)
 	char		*new;
 	char		*tmp;
 	struct stat	stats;
-	
+
 	new = ft_strjoin(path, "/");
 	tmp = new;
 	new = ft_strjoin(new, arg);
 	free(tmp);
-	if (stat(new, &stats) == 0)
+	if ((stat(new, &stats) == 0))
 		return (new);
 	free(new);
 	return (NULL);
-
 }
 
 void	find_cmd(char **args, char **env_data, t_all *all)
@@ -78,20 +77,17 @@ void	find_cmd(char **args, char **env_data, t_all *all)
 		return ;
 	if (!(path = ft_strtok(env_data[i] + 5, ":")))
 		error(ER_MALLOC);
-	i = 0;
-	while (path[i])
-	{
+	i = -1;
+	while (path[++i])
 		if ((new = join_path(path[i], args[0])))
 		{
 			tmp = args[0];
-			args[0]  = new;
+			args[0] = new;
 			free_arr(path);
 			free(tmp);
 			execute_process(args, all);
 			return ;
 		}
-		i++;
-	}
 	free_arr(path);
 	error_no_cmd(args[0]);
 }
@@ -112,7 +108,8 @@ void	execute(char **args, t_all *all)
 		}
 		i++;
 	}
-	if (stat(args[0], &stats) == 0)
+	if ((stat(args[0], &stats) == 0) &&
+		(S_ISREG(stats.st_mode)) && (stats.st_mode & S_IXUSR))
 		execute_process(args, all);
 	else
 		find_cmd(args, all->env_data, all);
@@ -128,7 +125,10 @@ void	execute_process(char **args, t_all *all)
 	if (pid == 0)
 	{
 		if (execve(args[0], args, all->env_data) == -1)
+		{
 			error(ER_EXECUTE);
+			exit(WTERMSIG(status));
+		}
 	}
 	else
 	{

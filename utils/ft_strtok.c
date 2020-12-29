@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 12:57:58 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 00:26:55 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 20:17:41 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,29 @@ static int	count_parts(char *s, char *delim)
 		while (delim[i])
 		{
 			if (*s == delim[i])
+			{
 				parts++;
+				break ;
+			}
 			i++;
 		}
 		s++;
 	}
 	return (parts);
 }
+
+// char		*add_token(char *s, char *delim)
+// {
+// 	char	*token;
+// 	int		chars;
+
+// 	token = NULL;
+// 	if (!(chars = count_chars(*s, delim)))
+// 		(*s)++;
+// 	else
+		
+// 	return (token);
+// }
 
 char		**ft_strtok(char *s, char *delim)
 {
@@ -63,6 +79,8 @@ char		**ft_strtok(char *s, char *delim)
 	if (!s || !*s)
 		return (NULL);
 	parts = count_parts(s, delim);
+	if (parts > ft_strlen(s))
+		return (NULL);
 	if (!(tok = (char**)malloc(sizeof(char*) * (parts + 1))))
 		return (NULL);
 	i = 0;
@@ -71,6 +89,8 @@ char		**ft_strtok(char *s, char *delim)
 		j = 0;
 		if (s)
 		{
+			// tok[i] = add_token(&s, delim);
+			
 			if (!(chars = count_chars(s, delim)))
 				s++;
 			else

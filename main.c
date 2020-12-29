@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:23:45 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/28 20:49:37 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 21:59:44 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		main(int argc, char **argv, char **envp)
 {
 	char **env_data;
-	
+
 	env_data = read_envp(envp);
 	g_exit = 0;
 	handle_signals();
@@ -35,14 +35,14 @@ char	**read_envp(char **envp)
 	if (!(env_data = (char**)malloc(sizeof(char*) * (i + 1))))
 		error(ER_MALLOC);
 	i = 0;
-	while(envp[i])
+	while (envp[i])
 	{
 		if (!(env_data[i] = ft_strdup(envp[i])))
 			error(ER_MALLOC);
 		i++;
 	}
 	env_data[i] = NULL;
-	return(env_data);
+	return (env_data);
 }
 
 void	shell_loop(char **env_data)
@@ -50,17 +50,16 @@ void	shell_loop(char **env_data)
 	char		*line;
 	t_command	*cmds;
 	t_all		*all;
-	
+
 	line = NULL;
 	all->env_data = env_data;
 	while (21)
 	{
 		cmds = new_cmd_list();
-		all->cmds = cmds;
 		ft_putstr_fd(PROMPT, 1);
 		get_next_line(&line);
-		parsing(line, cmds, all->env_data);
-		launch(all);
+		if (parsing(line, cmds, all->env_data))
+			launch(all, cmds);
 		free_cmd_list(&cmds);
 		free(line);
 		line = NULL;

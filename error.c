@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:45:38 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 16:31:52 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 19:10:44 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ void	error(int error)
 	if (error == ER_FORK)
 		error_errno();
 	else if (error == ER_EXECUTE)
-		ft_putendl_fd("shell: Failed to execute", 1);
+	{
+		g_exit = 126;
+		error_errno();
+	}
 	else if (error == ER_MALLOC)
 		ft_putendl_fd("shell: Allocation failed", 1);
 	else if (ER_FILE)

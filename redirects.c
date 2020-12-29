@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 13:00:49 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 17:37:53 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 18:17:37 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int		open_flags(t_command *cmds, int std)
 	if (std == 1)
 	{
 		if (!cmds->append)
-			return(open(cmds->out_fname, O_CREAT | O_WRONLY | O_TRUNC, 0777));
+			return (open(cmds->out_fname, O_CREAT | O_WRONLY | O_TRUNC, 0777));
 		else
-			return(open(cmds->out_fname, O_CREAT | O_WRONLY | O_APPEND, 0777));
+			return (open(cmds->out_fname, O_CREAT | O_WRONLY | O_APPEND, 0777));
 	}
 	return (open(cmds->in_fname, O_RDONLY));
 }
@@ -41,7 +41,7 @@ void	execute_redirects(char **args, t_command *cmds, t_all *all)
 	int fd_fileout;
 	int	fd_stdin;
 	int	fd_stdout;
-		
+
 	if (cmds->out_fname)
 	{
 		if ((fd_fileout = open_flags(cmds, 1)) == -1)

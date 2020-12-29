@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 22:07:10 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 17:59:50 by student          ###   ########.fr       */
+/*   Updated: 2020/12/29 21:46:08 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		parse_redirects(char redir_symb, char *line, t_command *cmds)
 		cmds->out_fname = fname;
 	else
 		cmds->in_fname = fname;
-	return ((line[i + 1] == '<' || line[i + 1] == '>') ? i + 2 : i);
+	return ((line[i + 1] == '<' || line[i + 1] == '>') ? i + 1 : i);
 }
 
 int		parse_quotes(char **env_data, char *line, char **command)
@@ -125,7 +125,7 @@ int		parse_env_value(char **env_data, char *line, char **command)
 	return (j);
 }
 
-void	parsing(char *line, t_command *cmds, char **env_data)
+int		parsing(char *line, t_command *cmds, char **env_data)
 {
 	char	*command;
 	int		j;
@@ -135,20 +135,23 @@ void	parsing(char *line, t_command *cmds, char **env_data)
 	command = NULL;
 	while (*line)
 	{
-		if (*line == '|' || *line == ';' || *line == '>' || *line == '<')
+		while (*line == '>' || *line == '<')
+		{
+			tmp->redir_flag = 1;
+			line += parse_redirects(*line, line + 1, tmp) + 1;
+		}
+		if (*line == '|' || *line == ';')
 		{
 			if (*line == '|')
 				tmp->pipe_flag = 1;
-			while (*line == '>' || *line == '<')
+			if (command)
 			{
-				tmp->redir_flag = 1;
-				line += parse_redirects(*line, line + 1, tmp);
+				tmp->command = command;
+				command = NULL;
+				if (!(tmp->next = new_cmd_list()))
+					error(ER_MALLOC);
+				tmp = tmp->next;
 			}
-			tmp->command = command;
-			command = NULL;
-			if (!(tmp->next = new_cmd_list()))
-				error(ER_MALLOC);
-			tmp = tmp->next;
 			line++;
 		}
 		else if (*line == '\'' || *line == '"')
@@ -169,4 +172,5 @@ void	parsing(char *line, t_command *cmds, char **env_data)
 		}
 	}
 	tmp->command = command;
+	return (1);
 }
