@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 11:41:14 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/28 23:39:20 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 00:25:48 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,17 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (ft_strdup(s2));
 	if (!s2)
 		return (ft_strdup(s1));
-	if (!(join = (char*)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1))))
+	if (!(join = (char*)malloc(sizeof(char) *
+		(ft_strlen(s1) + ft_strlen(s2) + 1))))
 		return (NULL);
 	while (*s1)
 	{
-		join[i] = *s1;
-		i++;
+		join[i++] = *s1;
 		s1++;
 	}
 	while (*s2)
 	{
-		join[i] = *s2;
-		i++;
+		join[i++] = *s2;
 		s2++;
 	}
 	join[i] = '\0';

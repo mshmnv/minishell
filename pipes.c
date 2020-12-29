@@ -3,55 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 17:38:57 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/28 18:19:26 by student          ###   ########.fr       */
+/*   Updated: 2020/12/29 00:22:13 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// do_command
-// command == builtins ? builtin
-// commnad == > ? redirect_command
-// command == $? ? curr_err_command(1)
-// else external_command
-
-//fork_ran = execute_process
-
-
-
-// 0 - stdin
-// 1 - stdout
-
-// void	redirect_pipe(char **args, t_all *all, int file)
-// {
-// 	pid_t	pid;
-// 	int		fd[2];
-// 	int		status;
-
-// 	pipe(fd);
-// 	if ((pid = fork()) < 0)
-// 	{
-// 		// errno_error("FORK", errno);
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	else if (pid == 0)
-// 	{
-// 		dup2(file, fd[1]);
-// 		dup2(fd[1], STDOUT_FILENO);
-// 		close(fd[0]);
-// 		if (args != NULL)
-// 			execve(args[0], args, all->env_data);
-// 		// else
-// 			// do_commnad(com_mass, ptr);
-// 		close(fd[1]);
-// 		exit(EXIT_SUCCESS);
-// 	}
-// 	else
-// 		waitpid(pid, &status, WUNTRACED);
-// }
 
 void	child_pipe(char **args, int *fd, int save_fd, t_all *all, t_command *cmds)
 {
@@ -62,13 +21,10 @@ void	child_pipe(char **args, int *fd, int save_fd, t_all *all, t_command *cmds)
 	}
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
-	// if (cmds->redir_flag)
-		// pipe_redirect();
 	if (cmds && cmds->redir_flag)
 		execute_redirects(args, cmds, all);
 	else
 		execute(args, all);
-	
 	exit(EXIT_SUCCESS);
 }
 

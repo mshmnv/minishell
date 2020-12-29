@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 12:57:58 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 00:02:57 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 00:26:55 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,27 @@ static int	count_chars(char *s, char *delim)
 		}
 		chars++;
 	}
-	return(chars);
+	return (chars);
 }
+
 static int	count_parts(char *s, char *delim)
 {
 	int		parts;
 	int		i;
-	
+
 	parts = 1;
 	while (*s)
 	{
 		i = 0;
 		while (delim[i])
 		{
-			if(*s == delim[i])
+			if (*s == delim[i])
 				parts++;
 			i++;
 		}
 		s++;
 	}
-	return(parts);
+	return (parts);
 }
 
 char		**ft_strtok(char *s, char *delim)
