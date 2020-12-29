@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 22:00:04 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 22:48:27 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define ER_EXECUTE 1
 # define ER_MALLOC 2
 # define ER_FILE 3
+# define ER_SYNTAX 4
 
 typedef struct			s_builtin
 {
@@ -49,9 +50,6 @@ typedef struct			s_all
 {
 	char				**env_data;
 }						t_all;
-
-
-
 /*
 **		globals
 */
@@ -66,17 +64,6 @@ char					**cmd_export(char **args, char **env_data);
 char					**cmd_unset(char **args, char **env_data);
 char					**cmd_env(char **args, char **env_data);
 char					**cmd_exit(char **args, char **env_data);
-
-// t_builtin		g_builtin[] =
-// {
-// 	{"echo", &cmd_echo},
-// 	{"cd", &cmd_cd},
-// 	{"pwd", &cmd_pwd},
-// 	{"export", &cmd_export},
-// 	{"unset", &cmd_unset},
-// 	{"env", &cmd_env},
-// 	{"exit", &cmd_exit},
-// };
 /*
 **		main.c
 */

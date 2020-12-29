@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:45:38 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 19:10:44 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 22:45:19 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ void	error(int error)
 	{
 		g_exit = 1;
 		error_errno();
+	}
+	else if (ER_SYNTAX)
+	{
+		g_exit = 258;
+		ft_putendl_fd("shell: Syntax error");
 	}
 }
 
