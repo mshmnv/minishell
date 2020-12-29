@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/28 13:33:26 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 17:07:41 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,32 @@ void	launch(t_all *all)
 	}
 }
 
+char	*join_path(char *path, char *arg)
+{
+	char		*new;
+	char		*tmp;
+	struct stat	stats;
+	
+	// tmp = *path;
+	new = ft_strjoin(path, "/");
+	// free(tmp);
+	tmp = new;
+	new = ft_strjoin(*path, arg);
+	free(tmp);
+	if (stat(new, &stats) == 0)
+		return (new);
+	free(new);
+	return (NULL);
+
+}
+
 void	find_cmd(char **args, char **env_data, t_all *all)
 {
 	char		**path;
 	int			i;
 	char		*tmp;
 	char		*new;
-	struct stat	stats;
+	// struct stat	stats;
 
 	i = 0;
 	while (env_data[i] && !(ft_strnstr(env_data[i], "PATH=", 5)))
@@ -65,21 +84,34 @@ void	find_cmd(char **args, char **env_data, t_all *all)
 	i = 0;
 	while (path[i])
 	{
-		tmp = path[i];
-		path[i] = ft_strjoin(path[i], "/");
-		free(tmp);
-		new = ft_strjoin(path[i], args[0]);
-		if (stat(new, &stats) == 0)
+		if ((new = join_path(path[i], args[0])))
 		{
 			tmp = args[0];
-			args[0] = new;
-			free(tmp);
+			args[0]  = new;
 			free_arr(path);
+			free(tmp);
 			execute_process(args, all);
 			return ;
 		}
 		i++;
-		free(new);
+		// free(new);
+		
+		
+		// tmp = path[i];
+		// path[i] = ft_strjoin(path[i], "/");
+		// free(tmp);
+		// new = ft_strjoin(path[i], args[0]);
+		// if (stat(new, &stats) == 0)
+		// {
+		// 	tmp = args[0];
+		// 	args[0] = new;
+		// 	free(tmp);
+		// 	free_arr(path);
+		// 	execute_process(args, all);
+		// 	return ;
+		// }
+		// i++;
+		// free(new);
 	}
 	free_arr(path);
 	error_no_cmd(args[0]);
@@ -93,7 +125,8 @@ void	execute(char **args, t_all *all)
 	i = 0;
 	while (i < 7)
 	{
-		if (!(ft_strncmp(args[0], g_builtin[i].name, ft_strlen(g_builtin[i].name))))
+		if (!(ft_strncmp(args[0], g_builtin[i].name,
+			ft_strlen(g_builtin[i].name))))
 		{
 			all->env_data = g_builtin[i].func(args, all->env_data);
 			return ;
@@ -106,7 +139,7 @@ void	execute(char **args, t_all *all)
 		find_cmd(args, all->env_data, all);
 }
 
-void 	execute_process(char **args, t_all *all)
+void	execute_process(char **args, t_all *all)
 {
 	pid_t	pid;
 	int		status;

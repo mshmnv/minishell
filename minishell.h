@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 00:15:05 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 16:29:27 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct				s_all
 /*
  *		globals
  */
-int				g_exit; 
+int				g_exit;
 /*
  * 		builtins
  */

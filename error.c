@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:45:38 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/28 15:36:18 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 16:31:52 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	error(int error)
 	}
 }
 
-void	error_errno()
+void	error_errno(void)
 {
 	char	*massege;
-	
+
 	massege = strerror(errno);
 	ft_putstr_fd("shell: ", 1);
 	ft_putendl_fd(massege, 1);

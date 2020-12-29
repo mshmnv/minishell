@@ -6,32 +6,11 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 14:56:31 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/28 14:03:04 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 16:30:23 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-	// if (g_signal == 7)
-	// {
-	// 	g_signal = 8;
-	// 	ft_putstr("\n");
-	// 	return ;
-	// }
-	// if (g_signal == 2)
-	// {
-	// 	g_signal = 1;
-	// 	ft_putstr("\n");
-	// 	return ;
-	// }
-
-// ctrl-\ - SIGQUIT
-// ctrl-C - SIGINT
-// ctrl-D - EOF
-
-// SIG_IGN - ignore signal
-
-// signal(int signum, sighandler);
 
 void	handle_child_signals(int status)
 {
