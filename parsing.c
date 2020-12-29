@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
+/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 22:07:10 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/28 13:01:22 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 17:59:50 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		parse_redirects(char redir_symb, char *line, t_command *cmds)
 		cmds->out_fname = fname;
 	else
 		cmds->in_fname = fname;
-	return (i);
+	return ((line[i + 1] == '<' || line[i + 1] == '>') ? i + 2 : i);
 }
 
 int		parse_quotes(char **env_data, char *line, char **command)
@@ -139,7 +139,7 @@ void	parsing(char *line, t_command *cmds, char **env_data)
 		{
 			if (*line == '|')
 				tmp->pipe_flag = 1;
-			else if (*line == '>' || *line == '<')
+			while (*line == '>' || *line == '<')
 			{
 				tmp->redir_flag = 1;
 				line += parse_redirects(*line, line + 1, tmp);
