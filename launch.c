@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 17:07:41 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/29 17:36:20 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,9 @@ char	*join_path(char *path, char *arg)
 	char		*tmp;
 	struct stat	stats;
 	
-	// tmp = *path;
 	new = ft_strjoin(path, "/");
-	// free(tmp);
 	tmp = new;
-	new = ft_strjoin(*path, arg);
+	new = ft_strjoin(new, arg);
 	free(tmp);
 	if (stat(new, &stats) == 0)
 		return (new);
@@ -72,7 +70,6 @@ void	find_cmd(char **args, char **env_data, t_all *all)
 	int			i;
 	char		*tmp;
 	char		*new;
-	// struct stat	stats;
 
 	i = 0;
 	while (env_data[i] && !(ft_strnstr(env_data[i], "PATH=", 5)))
@@ -94,24 +91,6 @@ void	find_cmd(char **args, char **env_data, t_all *all)
 			return ;
 		}
 		i++;
-		// free(new);
-		
-		
-		// tmp = path[i];
-		// path[i] = ft_strjoin(path[i], "/");
-		// free(tmp);
-		// new = ft_strjoin(path[i], args[0]);
-		// if (stat(new, &stats) == 0)
-		// {
-		// 	tmp = args[0];
-		// 	args[0] = new;
-		// 	free(tmp);
-		// 	free_arr(path);
-		// 	execute_process(args, all);
-		// 	return ;
-		// }
-		// i++;
-		// free(new);
 	}
 	free_arr(path);
 	error_no_cmd(args[0]);

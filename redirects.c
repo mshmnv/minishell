@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 13:00:49 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 17:00:07 by student          ###   ########.fr       */
+/*   Updated: 2020/12/29 17:37:53 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		open_flags(t_command *cmds, int std)
 		else
 			return(open(cmds->out_fname, O_CREAT | O_WRONLY | O_APPEND, 0777));
 	}
-	return(open(cmds->in_fname, O_RDONLY));
+	return (open(cmds->in_fname, O_RDONLY));
 }
 
 int		fd_dup(int fd_std, int file, int *fd_linkstd)
