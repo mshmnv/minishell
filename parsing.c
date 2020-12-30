@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
+/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 22:07:10 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 14:10:03 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 14:02:49 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,8 @@ int		parse_redirects(char redir_symb, char *line, t_command *cmds)
 
 	i = 0;
 	j = 0;
-	if (line[i] == '>')
-	{
-		i++;
+	if (line[i] == '>' && line[i++])
 		cmds->append = 1;
-	}
 	while (line[i] == ' ')
 		i++;
 	if (is_any_symb(line[i], "><"))
@@ -89,7 +86,35 @@ int		parse_quotes(char **env_data, char *line, char **command)
 		}
 		i++;
 	}
-	return (i);	
+	return (i);
+}
+
+int		env_preparse(char **env_data, char *line, char **command)
+{
+	char	*tmp;
+
+	if (line[0] == '?')
+	{
+		tmp = *command;
+		if (!(*command = ft_strjoin(*command, ft_itoa(g_exit))))
+			error(ER_MALLOC);
+		free(tmp);
+		return (1);
+	}
+	if (!ft_isalpha(line[0]) || line[0] != '_')
+		return (1);
+	return (0);
+}
+
+int		env_symb_skip(char *env_data, char *line)
+{
+	int		j;
+
+	j = 0;
+	while (env_data[j] && line[j] &&\
+		env_data[j] == line[j] && env_data[j] != '=')
+		j++;
+	return (j);
 }
 
 int		parse_env_value(char **env_data, char *line, char **command)
@@ -99,21 +124,13 @@ int		parse_env_value(char **env_data, char *line, char **command)
 	char	*tmp;
 
 	i = 0;
-	if (line[i] == '?')
-	{
-		tmp = *command;
-		if (!(*command = ft_strjoin(*command, ft_itoa(g_exit))))
-			error(ER_MALLOC);
-		free(tmp);
+	if (env_preparse(env_data, line, command) == 1)
 		return (1);
-	}
 	if (!ft_isalpha(line[i]) || line[i] != '_')
 		return (1);
 	while (env_data[i])
 	{
-		j = 0;
-		while (env_data[i][j] && line[j] && env_data[i][j] == line[j] && env_data[i][j] != '=')
-			j++;
+		j = env_symb_skip(env_data[i], line);
 		if (env_data[i][j] && env_data[i][j] == '=')
 		{
 			tmp = *command;
