@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 01:50:26 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 14:42:28 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 21:57:45 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ t_command	*new_cmd_list(void)
 	if ((cmds = (t_command*)malloc(sizeof(t_command))))
 	{
 		cmds->command = NULL;
+		cmds->args = NULL;
 		cmds->pipe_flag = 0;
 		cmds->redir_flag = 0;
 		cmds->in_fname = NULL;
 		cmds->out_fname = NULL;
 		cmds->append = 0;
-		cmds->file = -1;
 		cmds->next = NULL;
 	}
 	else
@@ -40,9 +40,14 @@ void		free_cmd_list(t_command **cmds)
 	while (*cmds)
 	{
 		next = (*cmds)->next;
-		free((*cmds)->command);
-		free((*cmds)->in_fname);
-		free((*cmds)->out_fname);
+		if ((*cmds)->command)
+			free((*cmds)->command);
+		if ((*cmds)->args)
+			free_arr((*cmds)->args);
+		if ((*cmds)->in_fname)
+			free((*cmds)->in_fname);
+		if ((*cmds)->out_fname)
+			free((*cmds)->out_fname);
 		free(*cmds);
 		*cmds = next;
 	}

@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:40:48 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 14:46:57 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 19:01:35 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	print_export(char **env_data)
 	free_arr(sorted);
 }
 
-static int	is_env(char *arg, char **env_data)
+static int	is_env(char *arg)
 {
 	char	*name;
 	char	*tmp;
@@ -78,20 +78,20 @@ static int	is_env(char *arg, char **env_data)
 	int		j;
 
 	i = 0;
-	while (env_data[i])
+	while (g_env[i])
 	{
 		j = 0;
-		while (arg[j] && arg[j] != '=' && env_data[i][j]
-				&& env_data[i][j] == arg[j])
+		while (arg[j] && arg[j] != '=' && g_env[i][j]
+				&& g_env[i][j] == arg[j])
 			j++;
 		if (arg[j] == '=')
 		{
-			tmp = env_data[i];
-			env_data[i] = ft_strdup(arg);
+			tmp = g_env[i];
+			g_env[i] = ft_strdup(arg);
 			free(tmp);
 			return (1);
 		}
-		else if (!arg[j] && env_data[i][j - 1] == arg[j - 1])
+		else if (!arg[j] && g_env[i][j - 1] == arg[j - 1])
 			return (1);
 		i++;
 	}
@@ -118,28 +118,27 @@ static int	error_name(char *arg)
 	return (0);
 }
 
-char		**cmd_export(char **args, char **env_data)
+void		cmd_export(char **args)
 {
 	int		i;
 	int		j;
 	char	*last;
 
 	if (!args[1])
-		print_export(env_data);
+		print_export(g_env);
 	else
 	{
 		i = 1;
 		while (args[i])
 		{
-			if (!error_name(args[i]) && !is_env(args[i], env_data))
+			if (!error_name(args[i]) && !is_env(args[i]))
 			{
 				j = 0;
-				while (env_data[j])
+				while (g_env[j])
 					j++;
-				env_data = ft_double_realloc(env_data, j + 1, args[i]);
+				g_env = ft_double_realloc(g_env, j + 1, args[i]);
 			}
 			i++;
 		}
 	}
-	return (env_data);
 }

@@ -3,148 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 22:07:10 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 14:02:49 by student          ###   ########.fr       */
+/*   Updated: 2020/12/30 22:10:51 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	is_any_symb(char ch, char *to_find)
+int		parsing(char *line, t_command *cmds)
 {
-	int	i;
+	t_command	*tmp;
+	int			ret;
 
-	i = 0;
-	while (to_find[i])
+	tmp = cmds;
+	while (*line)
 	{
-		if (ch == to_find[i])
-			return (to_find[i]);
-		i++;
-	}
-	return (0);
-}
-
-int		parse_redirects(char redir_symb, char *line, t_command *cmds)
-{
-	int		i;
-	int		j;
-	char	*fname;
-	int		start;
-
-	i = 0;
-	j = 0;
-	if (line[i] == '>' && line[i++])
-		cmds->append = 1;
-	while (line[i] == ' ')
-		i++;
-	if (is_any_symb(line[i], "><"))
-	{
-		error(ER_SYNTAX);
-		return (-1);
-	}
-	start = i;
-	while (line[i] && line[i] != ' ')
-	{
-		i++;
-		j++;
-	}
-	if (!(fname = (char*)malloc(sizeof(char) * (j + 1))))
-		error(ER_MALLOC);
-
-	ft_strlcpy(fname, line + start, j + 1);
-	if (redir_symb == '>')
-		cmds->out_fname = fname;
-	else
-		cmds->in_fname = fname;
-	return (i + 1);
-}
-
-int		parse_quotes(char **env_data, char *line, char **command)
-{
-	int		i;
-	int		j;
-	char	quote;
-
-	quote = line[0];
-	i = 1;
-	j = 0;
-	while (line[i] && line[i] != quote)
-	{
-		if (line[i] == '$' && quote == '"')
-			i += parse_env_value(env_data, line + i + 1, command);
+		if (ft_strchr("><\'\"$", *line))
+		{
+			if (!(what_to_parse(&line, tmp, &tmp->command)))
+				return (0);
+		}
+		else if (*line == '|' || *line == ';')
+		{
+			if (!parse_next_command(*line, &tmp))
+				return (0);
+			line++;
+		}
 		else
-		{
-			if (line[i] == '\\' && quote == '"' && is_any_symb(line[i + 1], "$\\\""))
-				i++;
-			if (*command)
-				j = ft_strlen(*command);
-			if (!(*command = ft_realloc(*command, j + 1)))
-				error(ER_MALLOC);
-			(*command)[j] = line[i];
-		}
-		i++;
+			line += parse_command(&tmp->command, line);
 	}
-	return (i);
+	if (!tmp->args)
+		tmp->args = ft_strtok(tmp->command, " \n\t");
+	return (1);
 }
 
-int		env_preparse(char **env_data, char *line, char **command)
+int		what_to_parse(char **line, t_command *tmp, char **command)
 {
-	char	*tmp;
+	int	ret;
 
-	if (line[0] == '?')
+	if (**line == '>' || **line == '<')
 	{
-		tmp = *command;
-		if (!(*command = ft_strjoin(*command, ft_itoa(g_exit))))
+		if ((ret = parsing_redirects(**line, *line + 1, tmp)) == -1)
+			return (0);
+		*line += ret;
+	}
+	else if (**line == '\'' || **line == '"')
+		*line += parsing_quotes(*line, command) + 1;
+	else if (**line == '$')
+		*line += parsing_env(*line + 1, command) + 1;
+	return (1);
+}
+
+int		parse_next_command(char line_char, t_command **cmds)
+{
+	if (!check_syntax((*cmds)->command))
+		return (0);
+	if (line_char == '|')
+		(*cmds)->pipe_flag = 1;
+	if ((*cmds)->command)
+	{
+		if (!(*cmds)->args)
+			(*cmds)->args = ft_strtok((*cmds)->command, " \n\t");
+		if (!((*cmds)->next = new_cmd_list()))
 			error(ER_MALLOC);
-		free(tmp);
-		return (1);
+		(*cmds) = (*cmds)->next;
 	}
-	if (!ft_isalpha(line[0]) || line[0] != '_')
-		return (1);
-	return (0);
-}
-
-int		env_symb_skip(char *env_data, char *line)
-{
-	int		j;
-
-	j = 0;
-	while (env_data[j] && line[j] &&\
-		env_data[j] == line[j] && env_data[j] != '=')
-		j++;
-	return (j);
-}
-
-int		parse_env_value(char **env_data, char *line, char **command)
-{
-	int		i;
-	int 	j;
-	char	*tmp;
-
-	i = 0;
-	if (env_preparse(env_data, line, command) == 1)
-		return (1);
-	if (!ft_isalpha(line[i]) || line[i] != '_')
-		return (1);
-	while (env_data[i])
-	{
-		j = env_symb_skip(env_data[i], line);
-		if (env_data[i][j] && env_data[i][j] == '=')
-		{
-			tmp = *command;
-			if (!(*command = ft_strjoin(*command, env_data[i] + j + 1)))
-				error(ER_MALLOC);
-			free(tmp);
-			return (j);
-		}
-		i++;
-	}
-	j = 0;
-	while (ft_isalnum(line[j]) || line[j] == '_')
-		j++;
-	return (j);
+	return (1);
 }
 
 int		check_syntax(char *command)
@@ -155,7 +81,7 @@ int		check_syntax(char *command)
 	if (command)
 		while (command[i])
 		{
-			if (!is_any_symb(command[i], " \n\t"))
+			if (!ft_strchr(" \n\t", command[i]))
 				return (1);
 			i++;
 		}
@@ -163,57 +89,19 @@ int		check_syntax(char *command)
 	return (0);
 }
 
-int		parsing(char *line, t_command *cmds, char **env_data)
+int		parse_command(char **command, char *line)
 {
-	char		*command;
-	int			j;
-	t_command	*tmp;
-	int			ret;
+	int	j;
+	int	i;
 
-	tmp = cmds;
-	command = NULL;
-	while (*line)
-	{
-		if (*line == '>' || *line == '<')
-		{
-			tmp->redir_flag = 1;
-			if ((ret = parse_redirects(*line, line + 1, tmp)) == -1)
-				return (0);
-			line += ret;
-		}
-		else if (*line == '|' || *line == ';')
-		{
-			if (!check_syntax(command))
-				return (0);
-			if (*line == '|')
-				tmp->pipe_flag = 1;
-			if (command)
-			{
-				tmp->command = command;
-				command = NULL;
-				if (!(tmp->next = new_cmd_list()))
-					error(ER_MALLOC);
-				tmp = tmp->next;
-			}
-			line++;
-		}
-		else if (*line == '\'' || *line == '"')
-			line += parse_quotes(env_data, line, &command) + 1;
-		else if (*line == '$')
-			line += parse_env_value(env_data, line + 1, &command) + 1;
-		else
-		{
-			j = 0;
-			if (*line == '\\')
-				line++;
-			if (command)
-				j = ft_strlen(command);
-			if (!(command = ft_realloc(command, j + 1)))
-				error(ER_MALLOC);
-			command[j] = *line;
-			line++;
-		}
-	}
-	tmp->command = command;
-	return (1);
+	j = 0;
+	i = 0;
+	if (line[i] == '\\')
+		i++;
+	if (*command)
+		j = ft_strlen(*command);
+	if (!(*command = ft_realloc(*command, j + 1)))
+		error(ER_MALLOC);
+	(*command)[j] = line[i];
+	return (i + 1);
 }

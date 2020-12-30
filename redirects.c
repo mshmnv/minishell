@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 13:00:49 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 13:50:14 by student          ###   ########.fr       */
+/*   Updated: 2020/12/30 18:50:50 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		fd_dup(int fd_std, int file, int *fd_linkstd)
 	return (fd_tmp);
 }
 
-void	execute_redirects(char **args, t_command *cmds, t_all *all)
+void	execute_redirects(char **args, t_command *cmds)
 {
 	int fd_filein;
 	int fd_fileout;
@@ -56,7 +56,7 @@ void	execute_redirects(char **args, t_command *cmds, t_all *all)
 		if ((fd_filein = fd_dup(STDIN_FILENO, fd_filein, &fd_stdin)) == -1)
 			return (error(ER_FILE));
 	}
-	execute(args, all);
+	execute(args);
 	if ((cmds->out_fname &&\
 		(dup2(fd_stdout, fd_fileout) == -1 || close(fd_stdout) == -1)) ||\
 		((cmds->in_fname) &&\

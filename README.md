@@ -25,10 +25,6 @@
 
 *parser cases*
 ```
-
-export USER=name ; echo $USER   - > (name)
-echo "    sksk   ls"
-
 (done)ls;pwd
 (done)ls > a | cat -e
 (done)cat < file >> file2 | grep 111
@@ -37,7 +33,7 @@ echo "    sksk   ls"
 (done)env | grep OG > s ; wc < s
 (done)env grep OG > s ; cat s
 (done)ls > file >> file2			(file-пустой, file2 - +ls)
-(done)ls <> file					(создает пустой файл, ls в терминале)
+ls <> file					(создает пустой файл, ls в терминале)
 
 (done)ls | |						(syntax error)
 (done)ls | | | | cat -e				(syntax error)
@@ -47,8 +43,9 @@ echo "    sksk   ls"
 (done)ls ; ls ; ; ;					(syntax error)
 (done); ls							(syntax error)
 
-wc < s | grep 4				(bash: s: No such file or directory)
-
+(done)wc < s | grep 4				(bash: s: No such file or directory)
+wc<1 >2>3>4
+ls -la | grep m | grep main >1>2>>3
 ```
 
 ???
@@ -56,6 +53,15 @@ wc < s | grep 4				(bash: s: No such file or directory)
 not close quotes ( echo "hhhh  ) - mb no (subj: ' and " except for multiline commands)
 echo "$(echo "nnn")"
 sssss^D   (don't let me delete anything before ^D)
+export USER=name ; echo $USER   - > (name)
+echo "    sksk   ls"
+cat Makefile | grep sjjd
 ```
 
 
+```
+- norme (parsing.c pipes.c)
+- check strtok in pipes.c
+- builtins return value
+- убрать file в структуре
+```

@@ -6,11 +6,23 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/23 15:31:16 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 18:04:38 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 18:54:09 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int		ctrl_d(char *remainder)
+{
+	if (remainder[0] == 0)
+	{
+		write(1, "exit\n", 6);
+		exit(0);
+	}
+	else
+		write(0, "  \b\b", 4);
+	return (1);
+}
 
 int		cut_line(char **line, char **remainder)
 {
@@ -43,16 +55,8 @@ int		read_line(char **remainder, char **line)
 		if (!(*remainder = ft_strjoin(*remainder, buf)))
 			return (-1);
 		free(tmp);
-		if (ret == 0 && (*remainder)[0] == 0)
-		{
-			write(1, "exit\n", 6);
-			exit(0);
-		}
-		else if (ret == 0)
-		{
-			ret = 1;
-			write(0, "  \b\b", 4);
-		}
+		if (ret == 0)
+			ret = ctrl_d(*remainder);
 	}
 	free(buf);
 	res = cut_line(line, remainder);

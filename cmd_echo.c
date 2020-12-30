@@ -6,13 +6,13 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:57:52 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/28 23:30:57 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 18:58:31 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char		**cmd_echo(char **args, char **env_data)
+void	cmd_echo(char **args)
 {
 	int i;
 	int n_flag;
@@ -36,5 +36,4 @@ char		**cmd_echo(char **args, char **env_data)
 	}
 	if (!n_flag)
 		ft_putchar_fd('\n', 1);
-	return (env_data);
 }

@@ -6,13 +6,13 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:41:12 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 14:47:21 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 19:02:24 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	error_name(char *arg)
+static int		error_name(char *arg)
 {
 	int	j;
 
@@ -32,7 +32,7 @@ static int	error_name(char *arg)
 	return (0);
 }
 
-char		**change_env(char **env_data, int what_unset)
+static char		**change_env(char **env_data, int what_unset)
 {
 	char	**new;
 	int		i;
@@ -59,7 +59,7 @@ char		**change_env(char **env_data, int what_unset)
 	return (new);
 }
 
-char		**cmd_unset(char **args, char **env_data)
+void			cmd_unset(char **args)
 {
 	int		i;
 	int		j;
@@ -70,16 +70,15 @@ char		**cmd_unset(char **args, char **env_data)
 	while (args[i])
 	{
 		j = 0;
-		while (!error_name(args[i]) && env_data[j])
+		while (!error_name(args[i]) && g_env[j])
 		{
-			if (ft_strnstr(env_data[j], args[i], ft_strlen(args[i])))
+			if (ft_strnstr(g_env[j], args[i], ft_strlen(args[i])))
 			{
-				env_data = change_env(env_data, j);
+				g_env = change_env(g_env, j);
 				break ;
 			}
 			j++;
 		}
 		i++;
 	}
-	return (env_data);
 }

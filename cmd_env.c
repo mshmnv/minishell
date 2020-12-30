@@ -6,13 +6,13 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:41:32 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 21:10:24 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 18:58:49 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**cmd_env(char **args, char **env_data)
+void	cmd_env(char **args)
 {
 	int i;
 
@@ -25,11 +25,10 @@ char	**cmd_env(char **args, char **env_data)
 		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 	}
 	else
-		while (env_data[i])
+		while (g_env[i])
 		{
-			if (ft_strchr(env_data[i], '='))
-				ft_putendl_fd(env_data[i], 1);
+			if (ft_strchr(g_env[i], '='))
+				ft_putendl_fd(g_env[i], 1);
 			i++;
 		}
-	return (env_data);
 }

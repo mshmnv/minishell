@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 12:36:45 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 22:12:05 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,24 @@ t_builtin		g_builtin[] =
 	{"exit", &cmd_exit},
 };
 
-void	launch(t_all *all, t_command *cmds)
+void	launch(t_command *cmds)
 {
 	t_command	*tmp;
 	int			i;
-	char		**args;
+	// char		**args;
 
 	i = 0;
 	tmp = cmds;
 	while (tmp)
 	{
-		if ((args = ft_strtok(tmp->command, " \n\t")))
+		if (tmp->args)
 		{
 			if (tmp->pipe_flag)
-				execute_pipe(&args, all, &tmp);
+				execute_pipe(&tmp->args, &tmp);
 			else if (tmp->redir_flag)
-				execute_redirects(args, tmp, all);
+				execute_redirects(tmp->args, tmp);
 			else
-				execute(args, all);
-			free_arr(args);
+				execute(tmp->args);
 		}
 		tmp = tmp->next;
 	}
@@ -63,7 +62,7 @@ char	*join_path(char *path, char *arg)
 	return (NULL);
 }
 
-void	find_cmd(char **args, char **env_data, t_all *all)
+void	find_cmd(char **args)
 {
 	char		**path;
 	int			i;
@@ -71,11 +70,11 @@ void	find_cmd(char **args, char **env_data, t_all *all)
 	char		*new;
 
 	i = 0;
-	while (env_data[i] && !(ft_strnstr(env_data[i], "PATH=", 5)))
+	while (g_env[i] && !(ft_strnstr(g_env[i], "PATH=", 5)))
 		i++;
-	if (!env_data[i])
+	if (!g_env[i])
 		return ;
-	if (!(path = ft_strtok(env_data[i] + 5, ":")))
+	if (!(path = ft_strtok(g_env[i] + 5, ":")))
 		error(ER_MALLOC);
 	i = -1;
 	while (path[++i])
@@ -85,14 +84,14 @@ void	find_cmd(char **args, char **env_data, t_all *all)
 			args[0] = new;
 			free_arr(path);
 			free(tmp);
-			execute_process(args, all);
+			execute_process(args);
 			return ;
 		}
 	free_arr(path);
 	error_no_cmd(args[0]);
 }
 
-void	execute(char **args, t_all *all)
+void	execute(char **args)
 {
 	int			i;
 	struct stat	stats;
@@ -103,19 +102,19 @@ void	execute(char **args, t_all *all)
 		if (!(ft_strncmp(args[0], g_builtin[i].name,
 			ft_strlen(g_builtin[i].name))))
 		{
-			all->env_data = g_builtin[i].func(args, all->env_data);
+			g_builtin[i].func(args);
 			return ;
 		}
 		i++;
 	}
 	if ((stat(args[0], &stats) == 0) &&
 		(S_ISREG(stats.st_mode)) && (stats.st_mode & S_IXUSR))
-		execute_process(args, all);
+		execute_process(args);
 	else
-		find_cmd(args, all->env_data, all);
+		find_cmd(args);
 }
 
-void	execute_process(char **args, t_all *all)
+void	execute_process(char **args)
 {
 	pid_t	pid;
 	int		status;
@@ -124,7 +123,7 @@ void	execute_process(char **args, t_all *all)
 		error(ER_FORK);
 	if (pid == 0)
 	{
-		if (execve(args[0], args, all->env_data) == -1)
+		if (execve(args[0], args, g_env) == -1)
 		{
 			error(ER_EXECUTE);
 			exit(WTERMSIG(status));
