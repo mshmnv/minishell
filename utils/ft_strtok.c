@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 12:57:58 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 20:17:41 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 14:35:18 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,30 @@ static int	count_parts(char *s, char *delim)
 	return (parts);
 }
 
-// char		*add_token(char *s, char *delim)
-// {
-// 	char	*token;
-// 	int		chars;
+char		*add_token(char **s, char *delim)
+{
+	char	*tok;
+	int		chars;
+	int		j;
 
-// 	token = NULL;
-// 	if (!(chars = count_chars(*s, delim)))
-// 		(*s)++;
-// 	else
-		
-// 	return (token);
-// }
+	tok = NULL;
+	j = 0;
+	if (!(chars = count_chars(*s, delim)))
+		(*s)++;
+	else
+	{
+		if (!(tok = (char*)malloc(sizeof(char) * (chars + 1))))
+			return (NULL);
+		while (**s && j < chars)
+		{
+			tok[j] = **s;
+			(*s)++;
+			j++;
+		}
+		tok[j] = '\0';
+	}
+	return (tok);
+}
 
 char		**ft_strtok(char *s, char *delim)
 {
@@ -74,7 +86,6 @@ char		**ft_strtok(char *s, char *delim)
 	int		parts;
 	int		chars;
 	int		i;
-	int		j;
 
 	if (!s || !*s)
 		return (NULL);
@@ -86,26 +97,10 @@ char		**ft_strtok(char *s, char *delim)
 	i = 0;
 	while (i < parts)
 	{
-		j = 0;
 		if (s)
 		{
-			// tok[i] = add_token(&s, delim);
-			
-			if (!(chars = count_chars(s, delim)))
-				s++;
-			else
-			{
-				if (!(tok[i] = (char*)malloc(sizeof(char) * (chars + 1))))
-					return (NULL);
-				while (*s && j < chars)
-				{
-					tok[i][j] = *s;
-					s++;
-					j++;
-				}
-				tok[i][j] = '\0';
+			if ((tok[i] = add_token(&s, delim)))
 				i++;
-			}
 		}
 		if (!*s)
 			break ;
