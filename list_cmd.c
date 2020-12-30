@@ -6,13 +6,13 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 01:50:26 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/26 13:14:37 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 14:42:28 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_command	*new_cmd_list()
+t_command	*new_cmd_list(void)
 {
 	t_command	*cmds;
 
@@ -33,7 +33,7 @@ t_command	*new_cmd_list()
 	return (cmds);
 }
 
-void	free_cmd_list(t_command **cmds)
+void		free_cmd_list(t_command **cmds)
 {
 	t_command	*next;
 

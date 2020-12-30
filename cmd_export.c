@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:40:48 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/16 11:30:53 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 14:46:57 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,9 @@ static int	error_name(char *arg)
 		if (ft_isdigit(arg[0]) ||
 			(!ft_isalpha(arg[j]) && !ft_isdigit(arg[j]) && arg[j] != '_'))
 		{
-			ft_putstr_fd("minishell: export: `", 1);
+			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 			ft_putstr_fd(arg, 1);
-			ft_putendl_fd("': not a valid identifier", 1);
+			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 			return (1);
 		}
 		j++;

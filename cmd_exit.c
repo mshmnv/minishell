@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:42:36 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/28 15:01:46 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 14:46:36 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char		**cmd_exit(char **args, char **env_data)
 	if (i == 1)
 		exit(EXIT_SUCCESS);
 	if (i > 2)
-		ft_putendl_fd("shell: exit: too many arguments", 1);
+		ft_putendl_fd("shell: exit: too many arguments", STDERR_FILENO);
 	else if (i == 2)
 	{
 		i = 0;

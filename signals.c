@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 14:56:31 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 16:30:23 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 14:42:11 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	handle_child_signals(int status)
 	ft_putchar_fd('\n', 1);
 }
 
-void	ignore_signals()
+void	ignore_signals(void)
 {
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	handle_signals()
+void	handle_signals(void)
 {
 	signal(SIGINT, sigint);
 	signal(SIGQUIT, sigquit);

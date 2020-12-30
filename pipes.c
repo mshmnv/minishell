@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 17:38:57 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 21:41:33 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 14:42:52 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	child_pipe(char **args, int *fd, int save_fd, t_all *all, t_command *cmds)
 		execute(args, all);
 	exit(EXIT_SUCCESS);
 }
-
 
 void	execute_pipe(char ***args, t_all *all, t_command **cmds)
 {
