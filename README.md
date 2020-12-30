@@ -25,9 +25,6 @@
 
 *parser cases*
 ```
-(done)ls ; ls ;  			  - > (ls ; ls)
-ls ; ls ; ; ; 		- > (bash: syntax error near unexpected token `;')
-; ls 				      - > (bash: syntax error near unexpected token `;')
 
 export USER=name ; echo $USER   - > (name)
 echo "    sksk   ls"
@@ -39,10 +36,18 @@ echo "    sksk   ls"
 (done)grep M < file | wc
 (done)env | grep OG > s ; wc < s
 (done)env grep OG > s ; cat s
-(done)pwd ; ;
+(done)ls > file >> file2			(file-пустой, file2 - +ls)
+(done)ls <> file					(создает пустой файл, ls в терминале)
 
-ls | |
-ls | | | | cat -e			(bash: syntax error near unexpected token `|')
+(done)ls | |						(syntax error)
+(done)ls | | | | cat -e				(syntax error)
+(done)ls >< file					(syntax error)
+(done)pwd ; ;						(syntax error)
+(done)ls ; ls ; 					(syntax error)
+(done)ls ; ls ; ; ;					(syntax error)
+(done); ls							(syntax error)
+
+wc < s | grep 4				(bash: s: No such file or directory)
 
 ```
 

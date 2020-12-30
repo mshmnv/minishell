@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 22:07:10 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 21:46:08 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 14:10:03 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	is_any_symb(char ch, char *to_find)
 			return (to_find[i]);
 		i++;
 	}
-	return ('\0');
+	return (0);
 }
 
 int		parse_redirects(char redir_symb, char *line, t_command *cmds)
@@ -42,6 +42,11 @@ int		parse_redirects(char redir_symb, char *line, t_command *cmds)
 	}
 	while (line[i] == ' ')
 		i++;
+	if (is_any_symb(line[i], "><"))
+	{
+		error(ER_SYNTAX);
+		return (-1);
+	}
 	start = i;
 	while (line[i] && line[i] != ' ')
 	{
@@ -50,12 +55,13 @@ int		parse_redirects(char redir_symb, char *line, t_command *cmds)
 	}
 	if (!(fname = (char*)malloc(sizeof(char) * (j + 1))))
 		error(ER_MALLOC);
+
 	ft_strlcpy(fname, line + start, j + 1);
 	if (redir_symb == '>')
 		cmds->out_fname = fname;
 	else
 		cmds->in_fname = fname;
-	return ((line[i + 1] == '<' || line[i + 1] == '>') ? i + 1 : i);
+	return (i + 1);
 }
 
 int		parse_quotes(char **env_data, char *line, char **command)
@@ -63,7 +69,6 @@ int		parse_quotes(char **env_data, char *line, char **command)
 	int		i;
 	int		j;
 	char	quote;
-
 
 	quote = line[0];
 	i = 1;
@@ -125,23 +130,44 @@ int		parse_env_value(char **env_data, char *line, char **command)
 	return (j);
 }
 
+int		check_syntax(char *command)
+{
+	int		i;
+
+	i = 0;
+	if (command)
+		while (command[i])
+		{
+			if (!is_any_symb(command[i], " \n\t"))
+				return (1);
+			i++;
+		}
+	error(ER_SYNTAX);
+	return (0);
+}
+
 int		parsing(char *line, t_command *cmds, char **env_data)
 {
-	char	*command;
-	int		j;
-	t_command *tmp;
+	char		*command;
+	int			j;
+	t_command	*tmp;
+	int			ret;
 
 	tmp = cmds;
 	command = NULL;
 	while (*line)
 	{
-		while (*line == '>' || *line == '<')
+		if (*line == '>' || *line == '<')
 		{
 			tmp->redir_flag = 1;
-			line += parse_redirects(*line, line + 1, tmp) + 1;
+			if ((ret = parse_redirects(*line, line + 1, tmp)) == -1)
+				return (0);
+			line += ret;
 		}
-		if (*line == '|' || *line == ';')
+		else if (*line == '|' || *line == ';')
 		{
+			if (!check_syntax(command))
+				return (0);
 			if (*line == '|')
 				tmp->pipe_flag = 1;
 			if (command)

@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:45:38 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 22:45:19 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 12:48:49 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ void	error(int error)
 	}
 	else if (error == ER_MALLOC)
 		ft_putendl_fd("shell: Allocation failed", 1);
-	else if (ER_FILE)
-	{
+	else if (error == ER_FILE)
+	{		
 		g_exit = 1;
 		error_errno();
 	}
-	else if (ER_SYNTAX)
+	else if (error == ER_SYNTAX)
 	{
 		g_exit = 258;
-		ft_putendl_fd("shell: Syntax error");
+		ft_putendl_fd("shell: Syntax error", 1);
 	}
 }
 
