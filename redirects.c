@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
+/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 13:00:49 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/29 18:17:37 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 13:50:14 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,9 @@ void	execute_redirects(char **args, t_command *cmds, t_all *all)
 			return (error(ER_FILE));
 	}
 	execute(args, all);
-	if (cmds->out_fname)
-		if (dup2(fd_stdout, fd_fileout) == -1 || close(fd_stdout) == -1)
-			return (error(ER_FILE));
-	if (cmds->in_fname)
-		if (dup2(fd_stdin, fd_filein) == -1 || close(fd_stdin) == -1)
-			return (error(ER_FILE));
+	if ((cmds->out_fname &&\
+		(dup2(fd_stdout, fd_fileout) == -1 || close(fd_stdout) == -1)) ||\
+		((cmds->in_fname) &&\
+		(dup2(fd_stdin, fd_filein) == -1 || close(fd_stdin) == -1)))
+		return (error(ER_FILE));
 }
