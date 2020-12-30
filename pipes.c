@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 17:38:57 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 19:10:26 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 22:54:22 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	execute_pipe(char ***args, t_command **cmds)
 		if (not_last)
 		{
 			(*cmds) = (*cmds)->next;
-			free_arr(*args);
-			*args = ft_strtok((*cmds)->command, " \n\t");
+			// free_arr(*args);
+			// *args = ft_strtok((*cmds)->command, " \n\t");
 		}
 	}
 }

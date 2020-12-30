@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 21:56:54 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 22:18:35 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int						parsing_redirects(char redir_symb, char *line,
 /*
 **		parsing_quotes.c
 */
-int						parsing_quotes(char *line, char **command);
+int						parsing_quotes(char *line, char **command, t_command *tmp);
 /*
 **		signals.c
 */

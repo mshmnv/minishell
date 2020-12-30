@@ -60,8 +60,6 @@ cat Makefile | grep sjjd
 
 
 ```
-- norme (parsing.c pipes.c)
 - check strtok in pipes.c
-- builtins return value
-- убрать file в структуре
+- args in pipes.c check
 ```

@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 22:07:10 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 22:10:51 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/30 22:18:11 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		what_to_parse(char **line, t_command *tmp, char **command)
 		*line += ret;
 	}
 	else if (**line == '\'' || **line == '"')
-		*line += parsing_quotes(*line, command) + 1;
+		*line += parsing_quotes(*line, command, tmp) + 1;
 	else if (**line == '$')
 		*line += parsing_env(*line + 1, command) + 1;
 	return (1);
