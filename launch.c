@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 14:27:25 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 22:12:05 by lbagg            ###   ########.fr       */
+/*   Updated: 2021/01/01 00:50:57 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,15 @@ void	launch(t_command *cmds)
 {
 	t_command	*tmp;
 	int			i;
-	// char		**args;
 
 	i = 0;
 	tmp = cmds;
 	while (tmp)
 	{
-		if (tmp->args)
+		if (tmp->args[0])
 		{
 			if (tmp->pipe_flag)
-				execute_pipe(&tmp->args, &tmp);
+				execute_pipe(&tmp);
 			else if (tmp->redir_flag)
 				execute_redirects(tmp->args, tmp);
 			else
@@ -97,6 +96,8 @@ void	execute(char **args)
 	struct stat	stats;
 
 	i = 0;
+	if (args[0] && args[0][0] == '\0')
+		return (error_no_cmd(args[0]));
 	while (i < 7)
 	{
 		if (!(ft_strncmp(args[0], g_builtin[i].name,

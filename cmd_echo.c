@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:57:52 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 18:58:31 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/31 22:59:22 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	cmd_echo(char **args)
 	if (args[1])
 	{
 		i = 1;
-		while (!ft_strncmp(args[i], "-n", 2))
+		while (args[i] && !ft_strncmp(args[i], "-n", 2))
 		{
 			n_flag = 1;
 			i++;

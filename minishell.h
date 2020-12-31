@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 22:18:35 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/31 23:51:39 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct			s_command
 {
 	char				*command;
 	char				**args;
+	int					args_size;
 	int					pipe_flag;
 	int					redir_flag;
 	char				*in_fname;
@@ -84,17 +85,17 @@ void					error_cd(char *arg);
 **		parsing.c
 */
 int						parsing(char *line, t_command *cmds);
-int						what_to_parse(char **line, t_command *tmp,
-						char **command);
+int						what_to_parse(char **line, t_command *cmd);
 int						parse_next_command(char line_char, t_command **cmds);
-int						parse_command(char **command, char *line);
+int						parse_command(t_command *cmd, char *line);
+
 int						check_syntax(char *command);
 /*
 **		parsing_env.c
 */
-int						parsing_env(char *line, char **command);
-int						env_symb_skip(char *env_str, char *line);
-int						env_preparse(char *line, char **command);
+int						parsing_env(char *line, t_command *cmd);
+int						env_symb_skip(char *env_str, char *line, int i);
+int						env_preparse(char *line, char **arg);
 /*
 **		parsing_redirects.c
 */
@@ -103,7 +104,7 @@ int						parsing_redirects(char redir_symb, char *line,
 /*
 **		parsing_quotes.c
 */
-int						parsing_quotes(char *line, char **command, t_command *tmp);
+int						parsing_quotes(char *line, char quote, t_command *cmd);
 /*
 **		signals.c
 */
@@ -120,10 +121,9 @@ void					free_cmd_list(t_command **cmds);
 /*
 **		pipes.c
 */
-void					execute_pipe(char ***args, t_command **cmds);
-void					fork_pipe(int save_fd, int *fd, char **args, t_command *cmds);
-void					child_pipe(char **args, int *fd, int save_fd,
-						t_command *cmds);					
+void					execute_pipe(t_command **cmds);
+void					fork_pipe(int save_fd, int *fd, t_command *cmds);
+void					child_pipe(int *fd, int save_fd, t_command *cmds);
 /*
 **		redirects.c
 */

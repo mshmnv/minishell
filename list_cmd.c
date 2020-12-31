@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 01:50:26 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 21:57:45 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/31 23:51:52 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,14 @@ t_command	*new_cmd_list(void)
 	if ((cmds = (t_command*)malloc(sizeof(t_command))))
 	{
 		cmds->command = NULL;
-		cmds->args = NULL;
+		if (!(cmds->args = (char**)malloc(sizeof(char*) * 2)))
+			error(ER_MALLOC);
+		else
+		{
+			cmds->args[0] = NULL;
+			cmds->args[1] = NULL;
+		}
+		cmds->args_size = 1;
 		cmds->pipe_flag = 0;
 		cmds->redir_flag = 0;
 		cmds->in_fname = NULL;

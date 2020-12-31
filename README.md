@@ -25,6 +25,13 @@
 
 *parser cases*
 ```
+ls > file >> file2			(file-пустой, file2 - +ls)   -  не создает file
+ls <> file					(создает пустой файл, ls в терминале)
+?
+wc<1 >2>3>4							(syntax error near 2)
+ls -la | grep m | grep main >1>2>>3
+
+
 (done)ls;pwd
 (done)ls > a | cat -e
 (done)cat < file >> file2 | grep 111
@@ -32,20 +39,25 @@
 (done)grep M < file | wc
 (done)env | grep OG > s ; wc < s
 (done)env grep OG > s ; cat s
-(done)ls > file >> file2			(file-пустой, file2 - +ls)
-ls <> file					(создает пустой файл, ls в терминале)
-
 (done)ls | |						(syntax error)
 (done)ls | | | | cat -e				(syntax error)
 (done)ls >< file					(syntax error)
 (done)pwd ; ;						(syntax error)
-(done)ls ; ls ; 					(syntax error)
 (done)ls ; ls ; ; ;					(syntax error)
 (done); ls							(syntax error)
-
 (done)wc < s | grep 4				(bash: s: No such file or directory)
-wc<1 >2>3>4
-ls -la | grep m | grep main >1>2>>3
+(done)ls ; ls ;
+(done)echo "   hello"
+(done)echo "-n"
+(done)ls ;  "   pwd"
+(done)echo -n -n "-n"
+(done)""							(bash: : command not found) 127
+(done)"" ; ls						(bash: : command nor found   +   ls)
+(done)ls "  " ss
+(done)echo "" " s "
+(done)echo"ss"
+(done)echo "    sksk   ls"
+
 ```
 
 ???
@@ -54,7 +66,6 @@ not close quotes ( echo "hhhh  ) - mb no (subj: ' and " except for multiline com
 echo "$(echo "nnn")"
 sssss^D   (don't let me delete anything before ^D)
 export USER=name ; echo $USER   - > (name)
-echo "    sksk   ls"
 cat Makefile | grep sjjd
 ```
 

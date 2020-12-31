@@ -6,11 +6,21 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 22:07:10 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 22:18:11 by lbagg            ###   ########.fr       */
+/*   Updated: 2021/01/01 00:23:36 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		skip_spaces(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] && line[i] == ' ')
+		i++;
+	return (i);
+}
 
 int		parsing(char *line, t_command *cmds)
 {
@@ -22,7 +32,7 @@ int		parsing(char *line, t_command *cmds)
 	{
 		if (ft_strchr("><\'\"$", *line))
 		{
-			if (!(what_to_parse(&line, tmp, &tmp->command)))
+			if (!(what_to_parse(&line, tmp)))
 				return (0);
 		}
 		else if (*line == '|' || *line == ';')
@@ -32,40 +42,39 @@ int		parsing(char *line, t_command *cmds)
 			line++;
 		}
 		else
-			line += parse_command(&tmp->command, line);
+			line += parse_command(tmp, line);
 	}
-	if (!tmp->args)
-		tmp->args = ft_strtok(tmp->command, " \n\t");
 	return (1);
 }
 
-int		what_to_parse(char **line, t_command *tmp, char **command)
+int		what_to_parse(char **line, t_command *cmd)
 {
 	int	ret;
 
 	if (**line == '>' || **line == '<')
 	{
-		if ((ret = parsing_redirects(**line, *line + 1, tmp)) == -1)
+		if ((ret = parsing_redirects(**line, *line + 1, cmd)) == -1)
 			return (0);
 		*line += ret;
 	}
 	else if (**line == '\'' || **line == '"')
-		*line += parsing_quotes(*line, command, tmp) + 1;
+		*line += parsing_quotes(*line, **line, cmd) + 1;
 	else if (**line == '$')
-		*line += parsing_env(*line + 1, command) + 1;
+		*line += parsing_env(*line + 1, cmd) + 1;
 	return (1);
 }
 
 int		parse_next_command(char line_char, t_command **cmds)
 {
-	if (!check_syntax((*cmds)->command))
+	if (!(*cmds)->args[0])
+	{
+		error(ER_SYNTAX);
 		return (0);
+	}
 	if (line_char == '|')
 		(*cmds)->pipe_flag = 1;
-	if ((*cmds)->command)
+	if ((*cmds)->args)
 	{
-		if (!(*cmds)->args)
-			(*cmds)->args = ft_strtok((*cmds)->command, " \n\t");
 		if (!((*cmds)->next = new_cmd_list()))
 			error(ER_MALLOC);
 		(*cmds) = (*cmds)->next;
@@ -73,35 +82,31 @@ int		parse_next_command(char line_char, t_command **cmds)
 	return (1);
 }
 
-int		check_syntax(char *command)
-{
-	int		i;
-
-	i = 0;
-	if (command)
-		while (command[i])
-		{
-			if (!ft_strchr(" \n\t", command[i]))
-				return (1);
-			i++;
-		}
-	error(ER_SYNTAX);
-	return (0);
-}
-
-int		parse_command(char **command, char *line)
+int		parse_command(t_command *cmd, char *line)
 {
 	int	j;
 	int	i;
+	int	n;
+	int	next_arg;
 
 	j = 0;
 	i = 0;
+	n = cmd->args_size - 1;
 	if (line[i] == '\\')
 		i++;
-	if (*command)
-		j = ft_strlen(*command);
-	if (!(*command = ft_realloc(*command, j + 1)))
+	if (*cmd->args)
+		(cmd->args[n]) ? (j = ft_strlen(cmd->args[n])) : 0;
+	if ((next_arg = skip_spaces(line)) && line[i + next_arg])
+	{
+		if (!ft_strchr("><;|", line[i + next_arg]) && (cmd->args[n]))
+		{
+			cmd->args = ft_double_realloc(cmd->args, cmd->args_size + 1, NULL);
+			cmd->args_size++;
+		}
+		return (i + next_arg);
+	}
+	if (!(cmd->args[n] = ft_realloc(cmd->args[n], j + 1)))
 		error(ER_MALLOC);
-	(*command)[j] = line[i];
+	cmd->args[n][j] = line[i];
 	return (i + 1);
 }

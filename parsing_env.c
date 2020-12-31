@@ -6,33 +6,34 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 16:33:40 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 21:49:03 by lbagg            ###   ########.fr       */
+/*   Updated: 2020/12/31 23:59:58 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		parsing_env(char *line, char **command)
+int		parsing_env(char *line, t_command *cmd)
 {
 	int		i;
 	int		j;
+	int		n;
 	char	*tmp;
 
-	i = 0;
-	if ((env_preparse(line, command) == 1))
+	n = cmd->args_size - 1;
+	if ((env_preparse(line, &cmd->args[n]) == 1))
 		return (1);
-	while (g_env[i])
+	i = -1;
+	while (g_env[++i])
 	{
-		j = env_symb_skip(g_env[i], line);
-		if (g_env[i][j] && g_env[i][j] == '=')
+		if ((j = env_symb_skip(g_env[i], line, i)))
 		{
-			tmp = *command;
-			if (!(*command = ft_strjoin(*command, g_env[i] + j + 1)))
+			tmp = cmd->args[n];
+			if (!(cmd->args[n] = ft_strjoin(cmd->args[n],
+				g_env[i] + j + 1)))
 				error(ER_MALLOC);
 			free(tmp);
 			return (j);
 		}
-		i++;
 	}
 	j = 0;
 	while (ft_isalnum(line[j]) || line[j] == '_')
@@ -40,27 +41,29 @@ int		parsing_env(char *line, char **command)
 	return (j);
 }
 
-int		env_symb_skip(char *env_str, char *line)
+int		env_symb_skip(char *env_str, char *line, int i)
 {
-	int		j;
+	int	j;
 
 	j = 0;
-	while (env_str[j] && line[j] &&\
+	while (env_str[j] && line[j] &&
 		env_str[j] == line[j] && env_str[j] != '=')
 		j++;
-	return (j);
+	if (g_env[i][j] && g_env[i][j] == '=')
+		return (j);
+	return (0);
 }
 
-int		env_preparse(char *line, char **command)
+int		env_preparse(char *line, char **arg)
 {
 	char	*tmp;
 	char	*exit_code;
 
 	if (line[0] == '?')
 	{
-		tmp = *command;
+		tmp = *arg;
 		exit_code = ft_itoa(g_exit);
-		if (!(*command = ft_strjoin(*command, exit_code)))
+		if (!(*arg = ft_strjoin(*arg, exit_code)))
 			error(ER_MALLOC);
 		free(tmp);
 		free(exit_code);
