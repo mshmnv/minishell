@@ -1,6 +1,6 @@
 .PHONY: all clean fclean re norme
 
-NAME = shell
+NAME = minishell
 
 SRC =	utils/ft_strdup.c utils/ft_strlen.c utils/ft_strjoin.c utils/ft_strlcpy.c utils/ft_strnstr.c \
 		utils/ft_strchr.c utils/ft_strncmp.c utils/ft_memcpy.c \
