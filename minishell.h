@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/31 23:51:39 by lbagg            ###   ########.fr       */
+/*   Updated: 2021/01/01 14:26:44 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct			s_builtin
 
 typedef struct			s_command
 {
-	char				*command;
 	char				**args;
 	int					args_size;
 	int					pipe_flag;

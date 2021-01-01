@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 01:50:26 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/31 23:51:52 by lbagg            ###   ########.fr       */
+/*   Updated: 2021/01/01 14:27:31 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_command	*new_cmd_list(void)
 	cmds = NULL;
 	if ((cmds = (t_command*)malloc(sizeof(t_command))))
 	{
-		cmds->command = NULL;
 		if (!(cmds->args = (char**)malloc(sizeof(char*) * 2)))
 			error(ER_MALLOC);
 		else
@@ -47,8 +46,6 @@ void		free_cmd_list(t_command **cmds)
 	while (*cmds)
 	{
 		next = (*cmds)->next;
-		if ((*cmds)->command)
-			free((*cmds)->command);
 		if ((*cmds)->args)
 			free_arr((*cmds)->args);
 		if ((*cmds)->in_fname)
