@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 17:22:12 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 18:17:00 by lbagg            ###   ########.fr       */
+/*   Updated: 2021/01/01 18:46:53 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		parsing_redirects(char redir_symb, char *line, t_command *cmds)
 
 	fstart = 0;
 	cmds->redir_flag = 1;
-	(line[fstart] == '>' && line[fstart++]) ? (cmds->append = 1) : 0;
+	(line[fstart] == '>' && line[fstart++]) ? (cmds->append = 1) : (cmds->append = 0);
 	while (line[fstart] == ' ')
 		fstart++;
 	if (ft_strchr("><", line[fstart]))
