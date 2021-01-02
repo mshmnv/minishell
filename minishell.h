@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 17:27:55 by lbagg             #+#    #+#             */
-/*   Updated: 2021/01/01 14:26:44 by lbagg            ###   ########.fr       */
+/*   Updated: 2021/01/02 13:02:32 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ int						parsing(char *line, t_command *cmds);
 int						what_to_parse(char **line, t_command *cmd);
 int						parse_next_command(char line_char, t_command **cmds);
 int						parse_command(t_command *cmd, char *line);
-
-int						check_syntax(char *command);
+int						skip_spaces(char *line);
 /*
 **		parsing_env.c
 */

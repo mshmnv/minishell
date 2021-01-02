@@ -6,7 +6,7 @@
 /*   By: lbagg <lbagg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:40:13 by lbagg             #+#    #+#             */
-/*   Updated: 2020/12/30 19:01:10 by lbagg            ###   ########.fr       */
+/*   Updated: 2021/01/02 14:49:18 by lbagg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void		cmd_cd(char **args)
 		chdir(dir);
 		dir = getcwd(NULL, 0);
 		change_env(oldir, dir);
+		free(dir);
 	}
 	else
 		error_cd(dir);

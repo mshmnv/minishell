@@ -34,5 +34,5 @@ fclean: clean
 re: fclean all
 
 norme:
-	@norminette $(SRC) minishell.h
+	@norminette $(SRC) minishell.h get_next_line/get_next_line.h utils/utils.h
 
